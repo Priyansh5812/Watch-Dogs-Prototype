@@ -11,8 +11,11 @@ public class PlayerStatData : ScriptableObject
     [Min(1f)]public float AccelarationToWalk;
     [Min(1f)]public float AccelarationToJog;
     [Min(1f)]public float AccelarationToRun;
-    [Min(1f)]public float Deacclaration;
+    [Min(1f)]public float DeacclarationForWalk;
+    [Min(1f)]public float DeacclarationForJog;
+    [Min(0.1f)]public float DeacclarationForRun;
     [Min(1f)]public float bodyTurningSpeed;
+    [Min(0f)] public float animationTurnLerpSpeed;
 
     [Header("Shoot Module Based")]
     public float health;

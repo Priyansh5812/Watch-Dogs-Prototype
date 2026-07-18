@@ -38,6 +38,8 @@ public class PlayerStateDriver : MonoBehaviour
     public Vector3 CurrentVelocity, LastVelocity;
     Vector3 finalMoveVector;
     Camera cam;
+    float turn;
+
     void Awake()
     {   
         _inputManager = GameManager.GetModule.Invoke(typeof(InputManager)) as InputManager;
@@ -80,27 +82,56 @@ public class PlayerStateDriver : MonoBehaviour
     }
 
     void CalculateFinalMoveVector()
-    {
-        Vector3 finalVelocity = cam.transform.TransformVector(CurrentVelocity); 
+    {   
+        Vector3 finalVelocity = Vector3.zero;;
+        if(_inputManager.GetInput().sqrMagnitude > 0.01)
+        {
+            finalVelocity = cam.transform.TransformVector(CurrentVelocity); 
+        }
+        else
+        {
+            finalVelocity = artTransform.TransformVector(CurrentVelocity);
+        }
         finalMoveVector = Vector3.ProjectOnPlane(finalVelocity , Vector3.up);
     }
 
     void ApplyRotation()
     {   
         if(_inputManager.GetInput().sqrMagnitude <= 0.001f)
-            return;
-
-        if(this.IsUnderRootRotation)
-            return;
-
-        Vector3 inputVec = cam.transform.TransformVector(_inputManager.GetInput().normalized); 
-        Vector3 intendedMoveDir = Vector3.ProjectOnPlane(inputVec , Vector3.up);
-
-        if(Vector3.Dot(intendedMoveDir , artTransform.forward) <= -0.85f)
         {
-            Animator.SetTrigger("TurnWalk");
+            turn = Mathf.MoveTowards(turn , 0f , Data.bodyTurningSpeed* Data.animationTurnLerpSpeed * Time.deltaTime);
             return;
         }
+
+        if(this.IsUnderRootRotation)
+        {
+            turn = Mathf.MoveTowards(turn , 0f , Data.bodyTurningSpeed* Data.animationTurnLerpSpeed * Time.deltaTime);
+
+            return;
+        }
+        // if(Vector3.Dot(intendedMoveDir , artTransform.forward) <= -0.85f)
+        // {
+        //     Animator.SetTrigger("TurnWalk");
+        //     return;
+        // }
+        
+        float dot = Vector3.Dot(finalMoveVector.normalized , artTransform.right);
+
+        if(dot >= 0.15)
+        {
+            turn = Mathf.MoveTowards(turn , 1f , Data.bodyTurningSpeed * Data.animationTurnLerpSpeed * Time.deltaTime);
+        }
+        else if(dot <= -0.15)
+        {
+            turn = Mathf.MoveTowards(turn , -1f , Data.bodyTurningSpeed * Data.animationTurnLerpSpeed * Time.deltaTime);
+            
+        }
+        else
+        {
+            turn = Mathf.MoveTowards(turn , 0f , Data.bodyTurningSpeed * Data.animationTurnLerpSpeed * Time.deltaTime);
+        }
+
+        Animator.SetFloat("Turn" , turn);
 
         Quaternion targetRotation = Quaternion.LookRotation(finalMoveVector , transform.up);
         artTransform.rotation = Quaternion.Slerp(artTransform.rotation,targetRotation,Data.bodyTurningSpeed * Time.deltaTime);
@@ -118,8 +149,8 @@ public class PlayerStateDriver : MonoBehaviour
         stateRegistry.Clear();
         RegisterState<IdleState>(new IdleState(this , _inputManager));
         RegisterState<WalkState>(new WalkState(this , _inputManager));
-        RegisterState<JogState>(new JogState(this));
-        RegisterState<RunState>(new RunState(this));
+        RegisterState<JogState>(new JogState(this , _inputManager));
+        RegisterState<RunState>(new RunState(this , _inputManager));
     }
 
 

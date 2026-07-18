@@ -25,12 +25,14 @@ public class WalkState : IPlayerState
     {   
          if(_inputManager.GetInput().sqrMagnitude > 0.001f)
         {
-            driver.CurrentVelocity = driver.LastVelocity + _inputManager.GetInput() * driver.Data.AccelarationToWalk * Time.fixedDeltaTime;
+            //driver.CurrentVelocity = driver.LastVelocity + _inputManager.GetInput() * driver.Data.AccelarationToWalk * Time.fixedDeltaTime;
+            Vector3 newVel = driver.LastVelocity + _inputManager.GetInput() * driver.Data.AccelarationToWalk * Time.fixedDeltaTime;
+            driver.CurrentVelocity = Vector3.RotateTowards(driver.CurrentVelocity,newVel,driver.Data.animationTurnLerpSpeed , driver.Data.AccelarationToWalk);
             driver.CurrentVelocity = Vector3.ClampMagnitude(driver.CurrentVelocity , driver.Data.MaxWalkSpeed);
         }
         else
         {
-            driver.CurrentVelocity -= driver.CurrentVelocity * driver.Data.Deacclaration* Time.fixedDeltaTime;
+            driver.CurrentVelocity -= driver.CurrentVelocity * driver.Data.DeacclarationForWalk* Time.fixedDeltaTime;
         }
     }
 
@@ -49,6 +51,11 @@ public class WalkState : IPlayerState
         if(driver.CurrentVelocity.sqrMagnitude <= (driver.Data.MaxWalkSpeed/2) * (driver.Data.MaxWalkSpeed/2) && _inputManager.GetInput().sqrMagnitude <= 0.01f)
         {
             driver.InitiateStateChange(typeof(IdleState));
+        }
+
+        else if(driver.CurrentVelocity.sqrMagnitude >= ((driver.Data.MaxWalkSpeed * driver.Data.MaxWalkSpeed)))
+        {
+            driver.InitiateStateChange(typeof(JogState));
         }
     }
 

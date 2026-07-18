@@ -27,7 +27,7 @@ public class IdleState : IPlayerState
     {   
         if(driver.CurrentVelocity.sqrMagnitude > 0.01f)
         {
-            driver.CurrentVelocity -= driver.CurrentVelocity * driver.Data.Deacclaration * Time.fixedDeltaTime;
+            driver.CurrentVelocity -= driver.CurrentVelocity * driver.Data.DeacclarationForWalk * Time.fixedDeltaTime;
         }
         else
         {
