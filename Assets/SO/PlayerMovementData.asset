@@ -12,15 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 496d43bcc91e1dd4f8e35ab435b9b342, type: 3}
   m_Name: PlayerMovementData
   m_EditorClassIdentifier: 
-  MaxWalkSpeed: 2.15
-  MaxJogSpeed: 6
-  MaxRunSpeed: 10
-  AccelarationToWalk: 3
-  AccelarationToJog: 4.75
+  MaxWalkSpeed: 2.25
+  MaxJogSpeed: 5.5
+  MaxRunSpeed: 7.75
+  AccelarationToWalk: 2
+  AccelarationToJog: 4.5
   AccelarationToRun: 3.89
-  Deacclaration: 10
-  bodyTurningSpeed: 4
-  animationTurnLerpSpeed: 0.35
+  DeacclarationForWalk: 3
+  DeacclarationForJog: 1
+  DeacclarationForRun: 0.75
+  finalVelocityReachingSpeed: 10
+  bodyTurningSpeed: 6
+  animationTurnLerpSpeed: 0.5
   health: 100
   damageInflict: 0
   fireRate: 0

@@ -36,9 +36,12 @@ public class PlayerStateDriver : MonoBehaviour
     bool isChangingState;
 
     public Vector3 CurrentVelocity, LastVelocity;
+    Vector3 finalVelocity;
     Vector3 finalMoveVector;
     Camera cam;
     float turn;
+
+    Matrix4x4 lastTransformMatrixData;
 
     void Awake()
     {   
@@ -60,7 +63,6 @@ public class PlayerStateDriver : MonoBehaviour
         {
             return;
         }
-
         currentState.OnUpdate();
         currentState.AnimationUpdate();
         currentState.OnCheckTransition();
@@ -83,21 +85,22 @@ public class PlayerStateDriver : MonoBehaviour
 
     void CalculateFinalMoveVector()
     {   
-        Vector3 finalVelocity = Vector3.zero;;
         if(_inputManager.GetInput().sqrMagnitude > 0.01)
         {
-            finalVelocity = cam.transform.TransformVector(CurrentVelocity); 
+            finalVelocity = cam.transform.TransformVector(CurrentVelocity);
+            lastTransformMatrixData = cam.transform.localToWorldMatrix;
         }
         else
         {
-            finalVelocity = artTransform.TransformVector(CurrentVelocity);
+            //finalVelocity = artTransform.TransformVector(CurrentVelocity);
+            finalVelocity = lastTransformMatrixData.MultiplyVector(CurrentVelocity);
         }
         finalMoveVector = Vector3.ProjectOnPlane(finalVelocity , Vector3.up);
     }
 
     void ApplyRotation()
     {   
-        if(_inputManager.GetInput().sqrMagnitude <= 0.001f)
+        if(finalMoveVector.sqrMagnitude <= 0.001f)
         {
             turn = Mathf.MoveTowards(turn , 0f , Data.bodyTurningSpeed* Data.animationTurnLerpSpeed * Time.deltaTime);
             return;
@@ -117,24 +120,44 @@ public class PlayerStateDriver : MonoBehaviour
         
         float dot = Vector3.Dot(finalMoveVector.normalized , artTransform.right);
 
+
+
+        float acc;
+
+        switch(currentState)
+        {
+            case RunState:
+                acc = Data.AccelarationToRun;
+                break;
+            
+            case JogState:
+                acc = Data.AccelarationToJog;
+                break;
+
+            default:
+                acc = Data.AccelarationToWalk;
+                break;
+        }
+
         if(dot >= 0.15)
         {
-            turn = Mathf.MoveTowards(turn , 1f , Data.bodyTurningSpeed * Data.animationTurnLerpSpeed * Time.deltaTime);
+            turn = Mathf.MoveTowards(turn , 1f , acc * Data.animationTurnLerpSpeed * Time.deltaTime);
         }
         else if(dot <= -0.15)
         {
-            turn = Mathf.MoveTowards(turn , -1f , Data.bodyTurningSpeed * Data.animationTurnLerpSpeed * Time.deltaTime);
+            turn = Mathf.MoveTowards(turn , -1f , acc * Data.animationTurnLerpSpeed * Time.deltaTime);
             
         }
         else
         {
-            turn = Mathf.MoveTowards(turn , 0f , Data.bodyTurningSpeed * Data.animationTurnLerpSpeed * Time.deltaTime);
+            turn = Mathf.MoveTowards(turn , 0f , acc * Data.animationTurnLerpSpeed * Time.deltaTime);
         }
 
+        
         Animator.SetFloat("Turn" , turn);
 
         Quaternion targetRotation = Quaternion.LookRotation(finalMoveVector , transform.up);
-        artTransform.rotation = Quaternion.Slerp(artTransform.rotation,targetRotation,Data.bodyTurningSpeed * Time.deltaTime);
+        artTransform.rotation = Quaternion.Slerp(artTransform.rotation,targetRotation,acc * Time.deltaTime);
     }
         
     void MoveCharacter()
