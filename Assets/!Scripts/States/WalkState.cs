@@ -28,7 +28,7 @@ public class WalkState : IPlayerState
             //driver.CurrentVelocity = driver.LastVelocity + _inputManager.GetInput() * driver.Data.AccelarationToWalk * Time.fixedDeltaTime;
             Vector3 newVel = driver.LastVelocity + _inputManager.GetInput() * driver.Data.AccelarationToWalk * Time.fixedDeltaTime;
             driver.CurrentVelocity = Vector3.RotateTowards(driver.CurrentVelocity,newVel,driver.Data.animationTurnLerpSpeed , driver.Data.AccelarationToWalk);
-            driver.CurrentVelocity = Vector3.ClampMagnitude(driver.CurrentVelocity , driver.Data.MaxWalkSpeed);
+            //driver.CurrentVelocity = Vector3.ClampMagnitude(driver.CurrentVelocity , driver.Data.MaxWalkSpeed);
         }
         else
         {
@@ -57,6 +57,7 @@ public class WalkState : IPlayerState
         {
             driver.InitiateStateChange(typeof(JogState));
         }
+
     }
 
 

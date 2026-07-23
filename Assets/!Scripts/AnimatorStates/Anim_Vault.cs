@@ -21,6 +21,15 @@ public class Anim_Vault : AnimStateAbstract
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         base.OnStateExit(animator, stateInfo, layerIndex);
+        VaultState state = driver.GetCurrentState() as VaultState;
+
+        if(state == null)
+        {
+            Debug.LogError("State is not in Vault State while performing vault animation!!!");
+            return;
+        }
+
+        state.SetStateCompletion();
     }
 
 }

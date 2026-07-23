@@ -2,9 +2,13 @@ using UnityEngine;
 
 public abstract class AnimStateAbstract : StateMachineBehaviour
 {
-    PlayerStateDriver driver;
+    protected static PlayerStateDriver driver;
+    [SerializeField] float minThresholdToReparent = 0.375f;
     float duration , t_duration;
     bool isSetuped = false;
+
+
+
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         base.OnStateEnter(animator, stateInfo, layerIndex);
@@ -22,7 +26,7 @@ public abstract class AnimStateAbstract : StateMachineBehaviour
         driver.transform.position = animator.gameObject.transform.position;
         t_duration -= Time.deltaTime;
         t_duration = Mathf.Clamp(t_duration , 0 , duration);
-        if((t_duration / duration) < 0.375f && !isSetuped)
+        if((t_duration / duration) < minThresholdToReparent && !isSetuped)
         {
             animator.gameObject.transform.SetParent(driver.transform);
             driver.IsUnderRootRotation = false;

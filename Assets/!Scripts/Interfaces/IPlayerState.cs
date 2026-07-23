@@ -10,4 +10,5 @@ public interface IPlayerState
 
     void OnExit(Action OnCompleted = null);
     void OnCheckTransition();
+    
 }

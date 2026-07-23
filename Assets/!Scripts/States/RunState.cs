@@ -20,14 +20,16 @@ public class RunState : IPlayerState
 
     public void OnUpdate()
     {
+        driver.VaultCheckPass();
     }
 
     public void FixedUpdate()
     {
         if(_inputManager.GetInput().sqrMagnitude > 0.001f && Input.GetKey(KeyCode.LeftShift))
         {
-            Vector3 newVel = driver.LastVelocity + _inputManager.GetInput() * driver.Data.AccelarationToWalk * Time.fixedDeltaTime;
-            driver.CurrentVelocity = Vector3.RotateTowards(driver.CurrentVelocity,newVel,driver.Data.animationTurnLerpSpeed , driver.Data.AccelarationToWalk);
+            //Vector3 newVel = driver.LastVelocity + _inputManager.GetInput() * driver.Data.AccelarationToRun * Time.fixedDeltaTime;
+            //driver.CurrentVelocity = Vector3.RotateTowards(driver.CurrentVelocity,newVel,driver.Data.animationTurnLerpSpeed , driver.Data.AccelarationToRun);
+            driver.CurrentVelocity = driver.LastVelocity + _inputManager.GetInput() * driver.Data.AccelarationToRun * Time.fixedDeltaTime;
             driver.CurrentVelocity = Vector3.ClampMagnitude(driver.CurrentVelocity , driver.Data.MaxRunSpeed);
         }
         else

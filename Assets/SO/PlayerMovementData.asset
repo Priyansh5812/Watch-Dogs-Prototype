@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 496d43bcc91e1dd4f8e35ab435b9b342, type: 3}
   m_Name: PlayerMovementData
   m_EditorClassIdentifier: 
-  MaxWalkSpeed: 2.25
+  MaxWalkSpeed: 1.9
   MaxJogSpeed: 5.5
   MaxRunSpeed: 7.75
   AccelarationToWalk: 2
   AccelarationToJog: 4.5
   AccelarationToRun: 3.89
-  DeacclarationForWalk: 3
+  DeacclarationForWalk: 3.5
   DeacclarationForJog: 1
   DeacclarationForRun: 0.75
   finalVelocityReachingSpeed: 10

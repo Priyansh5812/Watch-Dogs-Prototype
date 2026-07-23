@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class PlayerStateDriver : MonoBehaviour
+using AYellowpaper.SerializedCollections;
+using System.Buffers;
+public partial class PlayerStateDriver : MonoBehaviour
 {   
     [field:SerializeField] public CharacterController cc
     {
@@ -30,6 +31,11 @@ public class PlayerStateDriver : MonoBehaviour
         set;
     }
 
+
+    public List<RaycastInfo> raycastPoints; 
+    public LayerMask targetVaultLayer;
+    [SerializedDictionary("Count","Triggers")]
+    [SerializeField] SerializedDictionary<int , VaultTriggerData> animationTriggerNames;
     readonly Dictionary<Type, IPlayerState> stateRegistry = new();
     IPlayerState currentState;
     InputManager _inputManager;
@@ -40,8 +46,10 @@ public class PlayerStateDriver : MonoBehaviour
     Vector3 finalMoveVector;
     Camera cam;
     float turn;
-
     Matrix4x4 lastTransformMatrixData;
+    RaycastHit[] buffer;
+    VaultContext vContext;
+    
 
     void Awake()
     {   
@@ -51,24 +59,31 @@ public class PlayerStateDriver : MonoBehaviour
         InitializeStateRegistry();
     }
 
+    void OnEnable()
+    {   
+        buffer = ArrayPool<RaycastHit>.Shared.Rent(5);
+    }
     void Start()
     {   
-        
         SetInitialState<IdleState>();
     }
 
+
      void Update()
-    {
+    {   
         if (isChangingState || currentState == null)
         {
             return;
         }
+
         currentState.OnUpdate();
         currentState.AnimationUpdate();
         currentState.OnCheckTransition();
         ApplyRotation();
         MoveCharacter();
     }
+
+
 
     void FixedUpdate()
     {
@@ -83,19 +98,72 @@ public class PlayerStateDriver : MonoBehaviour
         LastVelocity = CurrentVelocity;
     }
 
+
+    // Treating this as a shared logic , will be executed by the states
+    public void VaultCheckPass()
+    {   
+        Vector3 startPoint = this.transform.position;
+        int c = 0;
+        float minPointDistance = float.MaxValue;
+        foreach(var i in raycastPoints)
+        {
+            Vector3 point = startPoint + Vector3.up * Mathf.Lerp(0 , cc.height , i.t);
+            Array.Clear(buffer, 0, buffer.Length);
+            int count = Physics.RaycastNonAlloc(point,artTransform.forward,buffer,i.distance,targetVaultLayer,QueryTriggerInteraction.Ignore);
+            if(count > 0)
+            {
+                c++;
+                for(int j = 0; j< count; j++)
+                {
+                    minPointDistance = Mathf.Min(minPointDistance , buffer[j].distance);
+                }
+            }
+        }
+
+        if(animationTriggerNames.ContainsKey(c))
+        {   
+            VaultTriggerData data = animationTriggerNames[c];
+            TriggerInfo triggerInfo = data.GetRandomTrigger();
+
+            // Yes I am in range of an obstacle where I can perform the animation
+            if(minPointDistance >= triggerInfo.minTriggerAnimationDistance && minPointDistance <= triggerInfo.maxTriggerAnimationDistance)
+            {   
+                
+                Debug.LogWarning("Min Distance : "+minPointDistance);
+                vContext = new VaultContext(){trigger = triggerInfo};
+                switch(currentState)
+                {
+                    case RunState:
+                        vContext.lastStateType = typeof(RunState);
+                        break;
+                    case JogState:
+                        vContext.lastStateType = typeof(JogState);
+                        break;
+                    default:
+                        break;
+                }
+                data.UpdateRandomIndex();
+                InitiateStateChange(typeof(VaultState));
+            }
+        }
+
+    }
+
+    public VaultContext GetVaultContext() => this.vContext;
+
     void CalculateFinalMoveVector()
     {   
-        if(_inputManager.GetInput().sqrMagnitude > 0.01)
+        if(_inputManager.GetInput().sqrMagnitude > 0.01 && currentState is not VaultState)
         {
             finalVelocity = cam.transform.TransformVector(CurrentVelocity);
             lastTransformMatrixData = cam.transform.localToWorldMatrix;
         }
         else
         {
-            //finalVelocity = artTransform.TransformVector(CurrentVelocity);
             finalVelocity = lastTransformMatrixData.MultiplyVector(CurrentVelocity);
         }
         finalMoveVector = Vector3.ProjectOnPlane(finalVelocity , Vector3.up);
+        Debug.DrawRay(this.transform.position , finalMoveVector, Color.red);
     }
 
     void ApplyRotation()
@@ -119,7 +187,6 @@ public class PlayerStateDriver : MonoBehaviour
         // }
         
         float dot = Vector3.Dot(finalMoveVector.normalized , artTransform.right);
-
 
 
         float acc;
@@ -174,6 +241,7 @@ public class PlayerStateDriver : MonoBehaviour
         RegisterState<WalkState>(new WalkState(this , _inputManager));
         RegisterState<JogState>(new JogState(this , _inputManager));
         RegisterState<RunState>(new RunState(this , _inputManager));
+        RegisterState<VaultState>(new VaultState(this));
     }
 
 
@@ -243,4 +311,86 @@ public class PlayerStateDriver : MonoBehaviour
         isChangingState = false;
     }
     #endregion
+
+    void OnDisable()
+    {   
+        if(buffer != null)
+        {
+            ArrayPool<RaycastHit>.Shared.Return(buffer);
+            buffer = null;
+        }
+    }
+
+#if UNITY_EDITOR
+
+    void OnDrawGizmos()
+    {
+        DrawRaycastGizmo();
+    }
+
+    void DrawRaycastGizmo()
+    {   
+        Vector3 startPoint = this.transform.position;
+
+        foreach(var i in raycastPoints)
+        {   
+            Gizmos.color = Color.yellow;
+            Vector3 point = startPoint + Vector3.up * Mathf.Lerp(0 , cc.height , i.t);
+            Gizmos.DrawSphere(point, 0.05f);
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawRay(point, this.artTransform.forward * i.distance);
+        }
+    }
+
+    #endif
+}
+
+[Serializable]
+public struct RaycastInfo
+{
+    [Range(0f , 1f)] public float t;
+    [Min(0f)] public float distance;
+}
+
+[System.Serializable]
+public struct VaultContext
+{
+    public TriggerInfo trigger;
+    public Type lastStateType;
+}
+
+[System.Serializable]
+public class VaultTriggerData
+{   
+    public TriggerInfo[] possibleTriggers;
+    int randomIndex;
+
+    public VaultTriggerData(TriggerInfo[] a = null, int b = 0)
+    {   
+        possibleTriggers = a;
+        randomIndex = b;
+        UpdateRandomIndex();
+    }
+
+    public TriggerInfo GetRandomTrigger()
+    {   
+        if(possibleTriggers == null || possibleTriggers.Length == 0)
+        {
+            Debug.LogError("Trigger Array is null");
+            return default;
+        }
+        return possibleTriggers[randomIndex];
+    }
+
+    public void UpdateRandomIndex() => randomIndex = UnityEngine.Random.Range(0 , possibleTriggers.Length);
+}
+
+
+
+[System.Serializable]
+public struct TriggerInfo
+{
+    public string triggerName;
+    public float minTriggerAnimationDistance;
+    public float maxTriggerAnimationDistance;
 }
