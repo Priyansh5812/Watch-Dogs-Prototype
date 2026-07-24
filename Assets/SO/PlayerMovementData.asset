@@ -20,7 +20,7 @@ MonoBehaviour:
   AccelarationToRun: 3.89
   DeacclarationForWalk: 3.5
   DeacclarationForJog: 1
-  DeacclarationForRun: 0.75
+  DeacclarationForRun: 0.5
   finalVelocityReachingSpeed: 10
   bodyTurningSpeed: 6
   animationTurnLerpSpeed: 0.5

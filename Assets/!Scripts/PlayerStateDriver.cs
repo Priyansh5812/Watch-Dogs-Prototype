@@ -393,4 +393,8 @@ public struct TriggerInfo
     public string triggerName;
     public float minTriggerAnimationDistance;
     public float maxTriggerAnimationDistance;
+    public bool useLastSpeed;
+    public float maxPostTriggerSpeed;
+    [Min(0f)] public float postTriggerSpeed;
+
 }
