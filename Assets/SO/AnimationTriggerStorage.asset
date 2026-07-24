@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0e3e4bdf14cae8409da0a60173cdc05, type: 3}
+  m_Name: AnimationTriggerStorage
+  m_EditorClassIdentifier: 
+  animationTriggerNames:
+    _serializedList:
+    - Key: 2
+      Value:
+        possibleTriggers:
+        - triggerName: RollOver
+          minTriggerAnimationDistance: 1
+          maxTriggerAnimationDistance: 1.5
+          useLastSpeed: 1
+          maxPostTriggerSpeed: 4.5
+          postTriggerSpeed: 1
+        - triggerName: SlideOver
+          minTriggerAnimationDistance: 1
+          maxTriggerAnimationDistance: 1.5
+          useLastSpeed: 1
+          maxPostTriggerSpeed: 4.5
+          postTriggerSpeed: 1

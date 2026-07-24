@@ -1822,35 +1822,19 @@ MonoBehaviour:
   <artTransform>k__BackingField: {fileID: 543450652688849112}
   <Data>k__BackingField: {fileID: 11400000, guid: a8c38ea4e80d9af49a71e310ac2c4d9e, type: 2}
   <Animator>k__BackingField: {fileID: 919132148966441571}
-  raycastPoints:
-  - t: 0.039
-    distance: 2
-  - t: 0.403
-    distance: 2
-  - t: 0.687
-    distance: 2
-  - t: 0.541
-    distance: 2
-  targetVaultLayer:
+  <VaultTriggerData>k__BackingField: {fileID: 11400000, guid: fb2911dc80b45414099a29592a8c149c, type: 2}
+  <raycastPoints>k__BackingField:
+  - t: 0.041
+    distance: 1.5
+  - t: 0.398
+    distance: 1.5
+  - t: 0.734
+    distance: 1.5
+  - t: 1
+    distance: 1.5
+  <targetVaultLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 64
-  animationTriggerNames:
-    _serializedList:
-    - Key: 2
-      Value:
-        possibleTriggers:
-        - triggerName: RollOver
-          minTriggerAnimationDistance: 1
-          maxTriggerAnimationDistance: 1.5
-          useLastSpeed: 1
-          maxPostTriggerSpeed: 4.5
-          postTriggerSpeed: 1
-        - triggerName: SlideOver
-          minTriggerAnimationDistance: 1
-          maxTriggerAnimationDistance: 1.5
-          useLastSpeed: 1
-          maxPostTriggerSpeed: 4.5
-          postTriggerSpeed: 1
   CurrentVelocity: {x: 0, y: 0, z: 0}
   LastVelocity: {x: 0, y: 0, z: 0}
 --- !u!1 &1406957879
