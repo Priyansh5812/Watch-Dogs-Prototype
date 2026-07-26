@@ -18,14 +18,8 @@ MonoBehaviour:
       Value:
         possibleTriggers:
         - triggerName: RollOver
-          minTriggerAnimationDistance: 1
-          maxTriggerAnimationDistance: 1.5
-          useLastSpeed: 1
-          maxPostTriggerSpeed: 4.5
-          postTriggerSpeed: 1
-        - triggerName: SlideOver
-          minTriggerAnimationDistance: 1
-          maxTriggerAnimationDistance: 1.5
+          minTriggerAnimationDistance: 1.2
+          maxTriggerAnimationDistance: 1.75
           useLastSpeed: 1
           maxPostTriggerSpeed: 4.5
           postTriggerSpeed: 1

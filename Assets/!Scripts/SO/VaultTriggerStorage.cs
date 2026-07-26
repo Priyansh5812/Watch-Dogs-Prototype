@@ -41,6 +41,8 @@ public struct VaultContext
 {
     public TriggerInfo trigger;
     public System.Type lastStateType;
+    public Vector3 startPoint;
+    public Vector3 endPoint;
 }
 
 [System.Serializable]

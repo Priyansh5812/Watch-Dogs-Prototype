@@ -7,15 +7,12 @@ public class VaultModule : IDisposable
 {
     PlayerStateDriver driver;
     VaultTriggerStorage data;
-    TriggerInfo[] possibleTriggers;
     List<RaycastInfo> raycastPoints; 
     RaycastHit[] buffer;
 
     VaultContext vContext;
 
     int randomIndex;
-
-
 
     public VaultModule(PlayerStateDriver driver , VaultTriggerStorage data)
     {
@@ -54,8 +51,8 @@ public class VaultModule : IDisposable
             // Yes I am in range of an obstacle where I can perform the animation
             if(minPointDistance >= triggerInfo.minTriggerAnimationDistance && minPointDistance <= triggerInfo.maxTriggerAnimationDistance)
             {   
+                float surfaceArea = DetermineObstacleSurfaceToCover(minPointDistance);
                 
-                Debug.LogWarning("Min Distance : "+minPointDistance);
                 vContext = new VaultContext(){trigger = triggerInfo};
                 switch(driver.GetCurrentState())
                 {
@@ -74,9 +71,23 @@ public class VaultModule : IDisposable
         }
     }
 
+    float DetermineObstacleSurfaceToCover(float minPointDistance)
+    {   
+        Vector3 firstRaycastPoint = driver.transform.TransformPoint(driver.cc.center) + Vector3.up * driver.cc.height/2;
+        firstRaycastPoint += driver.artTransform.forward * (minPointDistance + 0.001f);
+        
+        AreaHelper.QueryFollowingSurfaceArea(firstRaycastPoint,
+        driver.artTransform.forward,
+        Vector3.down,
+        driver.targetVaultLayer,
+        out Vector3 startPoint,
+        out Vector3 endPoint);
+
+        Debug.Log($"startPoint:{startPoint} , endPoint {endPoint}");
+        return (endPoint - startPoint).magnitude;
+    }
+
     public VaultContext GetVaultContext() => this.vContext;
-    
-    void UpdateRandomIndex() => randomIndex = UnityEngine.Random.Range(0 , possibleTriggers.Length);
 
     public void Dispose()
     {
