@@ -13,7 +13,6 @@ public class WalkState : IPlayerState
 
     public void OnEnter(Action OnCompleted = null)
     {   
-        Debug.Log("Entered Walk State");
         OnCompleted?.Invoke();
     }
 

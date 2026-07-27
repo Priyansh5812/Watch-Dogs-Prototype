@@ -23,7 +23,6 @@ public class Anim_VaultStateCompletion : AnimModuleBase
             Debug.LogError("State is not in Vault State while performing vault animation!!!");
             return;
         }
-
         state.SetStateCompletion();
     }
 }

@@ -17,9 +17,17 @@ public class PlayerStatData : ScriptableObject
     [Min(0.1f)] public float finalVelocityReachingSpeed;
     [Min(1f)]public float bodyTurningSpeed;
     [Min(0f)] public float animationTurnLerpSpeed;
+    public BaseMovmentType baseMovementType;
 
     [Header("Shoot Module Based")]
     public float health;
     public float damageInflict;
     [Min(0.25f)]public float fireRate;
+}
+
+
+public enum BaseMovmentType
+{ 
+    WALK,
+    JOG
 }

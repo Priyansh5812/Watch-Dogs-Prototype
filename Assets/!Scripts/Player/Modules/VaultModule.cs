@@ -9,10 +9,8 @@ public class VaultModule : IDisposable
     VaultTriggerStorage data;
     List<RaycastInfo> raycastPoints; 
     RaycastHit[] buffer;
-
     VaultContext vContext;
-
-    int randomIndex;
+    Vector3[] traversalPoints;
 
     public VaultModule(PlayerStateDriver driver , VaultTriggerStorage data)
     {
@@ -20,7 +18,7 @@ public class VaultModule : IDisposable
         this.data = data;
         this.raycastPoints = driver.raycastPoints;
         buffer = ArrayPool<RaycastHit>.Shared.Rent(5);
-
+        traversalPoints = ArrayPool<Vector3>.Shared.Rent(3);
     }   
 
     public void VaultCheckPass()
@@ -41,6 +39,7 @@ public class VaultModule : IDisposable
                     minPointDistance = Mathf.Min(minPointDistance , buffer[j].distance);
                 }
             }
+            
         }
 
         if(data.DoesHitCountExist(c))
@@ -54,6 +53,8 @@ public class VaultModule : IDisposable
                 float surfaceArea = DetermineObstacleSurfaceToCover(minPointDistance);
                 
                 vContext = new VaultContext(){trigger = triggerInfo};
+                vContext.traversalPoints = this.traversalPoints;
+
                 switch(driver.GetCurrentState())
                 {
                     case RunState:
@@ -84,7 +85,16 @@ public class VaultModule : IDisposable
         out Vector3 endPoint);
 
         Debug.Log($"startPoint:{startPoint} , endPoint {endPoint}");
+        GenerateTraversalPoints(startPoint, endPoint);
+
         return (endPoint - startPoint).magnitude;
+    }
+
+    void GenerateTraversalPoints(Vector3 startPoint, Vector3 endPoint)
+    {
+        traversalPoints[0] = driver.transform.position;
+        traversalPoints[1] = startPoint;
+        traversalPoints[2] = endPoint;
     }
 
     public VaultContext GetVaultContext() => this.vContext;
@@ -95,6 +105,12 @@ public class VaultModule : IDisposable
         {
             ArrayPool<RaycastHit>.Shared.Return(buffer);
             buffer = null;
+        }
+
+        if (traversalPoints != null)
+        {
+            ArrayPool<Vector3>.Shared.Return(traversalPoints);
+            traversalPoints = null;
         }
     }
 }

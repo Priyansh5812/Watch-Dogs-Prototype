@@ -38,6 +38,11 @@ public partial class PlayerStateDriver : MonoBehaviour
         set;
     }
 
+    public bool IsUnderSimulatedPositioning
+    {
+        get;
+        set;
+    }
 
     [field: SerializeField] public List<RaycastInfo> raycastPoints
     {
@@ -191,8 +196,9 @@ public partial class PlayerStateDriver : MonoBehaviour
         
     void MoveCharacter()
     {   
-        if(this.IsUnderRootRotation)
+        if(this.IsUnderRootRotation || this.IsUnderSimulatedPositioning)
             return;
+
         cc.Move(finalMoveVector * Time.deltaTime);
     }
 

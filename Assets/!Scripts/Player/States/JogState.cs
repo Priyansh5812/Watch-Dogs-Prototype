@@ -13,7 +13,6 @@ public class JogState : IPlayerState
 
     public void OnEnter(Action OnCompleted = null)
     {   
-         Debug.Log("Entered Jog State");
         OnCompleted?.Invoke();
     }
 

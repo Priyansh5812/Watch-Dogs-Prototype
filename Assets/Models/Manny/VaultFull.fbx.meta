@@ -47,8 +47,8 @@ ModelImporter:
       name: ExportTes
       takeName: ExportTes
       internalID: 9004783787087120646
-      firstFrame: 36
-      lastFrame: 56
+      firstFrame: 0
+      lastFrame: 27.4
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -58,7 +58,7 @@ ModelImporter:
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 1
-      loopBlendPositionY: 1
+      loopBlendPositionY: 0
       loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
