@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1001c58a925bb3d44ba79f5dbf464eeb
+guid: 057dc46188b8a554b850030274a5a59e
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -17,8 +17,8 @@ ModelImporter:
     removeConstantScaleCurves: 0
     motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'VaultSlide_Full' has import animation warnings
-      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+    animationImportWarnings: "\nClip 'ExportTes' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
       to improve retargeting quality.\n\t'spine_01' has translation animation that
       will be discarded.\n\t'spine_02' has translation animation that will be discarded.\n\t'spine_03'
       has translation animation that will be discarded.\n\t'spine_03' is inbetween
@@ -44,11 +44,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: VaultSlide_Full
-      takeName: VaultSlide_Full
-      internalID: -6816225414880032469
-      firstFrame: 0
-      lastFrame: 13.8
+      name: ExportTes
+      takeName: ExportTes
+      internalID: 9004783787087120646
+      firstFrame: 36
+      lastFrame: 56
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -58,8 +58,8 @@ ModelImporter:
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 1
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0

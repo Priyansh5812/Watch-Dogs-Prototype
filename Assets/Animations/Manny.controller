@@ -13,7 +13,7 @@ AnimatorState:
   m_Transitions:
   - {fileID: -7826070596095877702}
   m_StateMachineBehaviours:
-  - {fileID: -8753058822313750223}
+  - {fileID: 2431703171058867398}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -41,6 +41,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minThresholdToReparent: 0.2
+--- !u!114 &-8839785335269619711
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a2e9fd66555b114396eb2c554bcddb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateEnter:
+  - moduleType: 0
+    Threshold: 0
+    Execution:
+      m_PersistentCalls:
+        m_Calls: []
+  stateUpdate:
+  - moduleType: 4
+    Threshold: 0
+    Execution:
+      m_PersistentCalls:
+        m_Calls: []
+  - moduleType: 2
+    Threshold: 0.375
+    Execution:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: -8839785335269619711}
+          m_TargetAssemblyTypeName: AnimModuleRuntime, Assembly-CSharp
+          m_MethodName: DisableRootMotionAndReparent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  stateExit:
+  - moduleType: 3
+    Threshold: 0
+    Execution:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1101 &-8766544177057830753
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -66,19 +113,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &-8753058822313750223
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcdebeacc15993e4989ae0a85b196021, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minThresholdToReparent: 0.375
 --- !u!1102 &-8651477137068392736
 AnimatorState:
   serializedVersion: 6
@@ -92,7 +126,7 @@ AnimatorState:
   m_Transitions:
   - {fileID: -3924679503477373025}
   m_StateMachineBehaviours:
-  - {fileID: 1362473563590907595}
+  - {fileID: -8839785335269619711}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -133,7 +167,7 @@ AnimatorStateMachine:
     m_Position: {x: 500, y: 420, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8537355201425677479}
-    m_Position: {x: 490, y: 680, z: 0}
+    m_Position: {x: 490, y: 670, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 700926143026008902}
     m_Position: {x: 490, y: 900, z: 0}
@@ -280,19 +314,6 @@ BlendTree:
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
---- !u!114 &-3966699262346776589
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcdebeacc15993e4989ae0a85b196021, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minThresholdToReparent: 0.375
 --- !u!1101 &-3924679503477373025
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -384,9 +405,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.20196438
+  m_TransitionDuration: 0.2984376
   m_TransitionOffset: 0
-  m_ExitTime: 0.78598726
+  m_ExitTime: 0.7761681
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -510,8 +531,35 @@ MonoBehaviour:
     Execution:
       m_PersistentCalls:
         m_Calls: []
-  stateUpdate: []
-  stateExit: []
+  stateUpdate:
+  - moduleType: 4
+    Threshold: 0
+    Execution:
+      m_PersistentCalls:
+        m_Calls: []
+  - moduleType: 2
+    Threshold: 0.31
+    Execution:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: -1635129457420323159}
+          m_TargetAssemblyTypeName: AnimModuleRuntime, Assembly-CSharp
+          m_MethodName: DisableRootMotionAndReparent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  stateExit:
+  - moduleType: 3
+    Threshold: 0
+    Execution:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!206 &-864506958336079945
 BlendTree:
   m_ObjectHideFlags: 1
@@ -662,7 +710,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: VaultSlide
-  m_Speed: 0.18
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -674,25 +722,12 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4a2c8cf518ffb0c40a854f6ef67e0c06, type: 2}
+  m_Motion: {fileID: 7400000, guid: 551f456be06cdb749bd479ac5b90b0b8, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!114 &1362473563590907595
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcdebeacc15993e4989ae0a85b196021, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minThresholdToReparent: 0.375
 --- !u!206 &2061762983410613138
 BlendTree:
   m_ObjectHideFlags: 1
@@ -724,6 +759,53 @@ BlendTree:
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
+--- !u!114 &2431703171058867398
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a2e9fd66555b114396eb2c554bcddb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateEnter:
+  - moduleType: 0
+    Threshold: 0
+    Execution:
+      m_PersistentCalls:
+        m_Calls: []
+  stateUpdate:
+  - moduleType: 4
+    Threshold: 0
+    Execution:
+      m_PersistentCalls:
+        m_Calls: []
+  - moduleType: 2
+    Threshold: 0.375
+    Execution:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2431703171058867398}
+          m_TargetAssemblyTypeName: AnimModuleRuntime, Assembly-CSharp
+          m_MethodName: DisableRootMotionAndReparent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  stateExit:
+  - moduleType: 3
+    Threshold: 0
+    Execution:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1102 &2724615354947299253
 AnimatorState:
   serializedVersion: 6
@@ -823,7 +905,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: e6d9d908a75e049499a3d32be3a58c59, type: 2}
+  m_Motion: {fileID: 7400000, guid: 78c331bc0bb469842a07af0bffd83cf8, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -970,7 +1052,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 3377990654896fb40a1e95c08ae00195, type: 2}
+  m_Motion: {fileID: 7400000, guid: 23908ba8a8e3cb646bc37e2e29c8b58c, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1082,12 +1164,11 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: VaultStart
-  m_Speed: 0.85
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -4559986752324835444}
-  m_StateMachineBehaviours:
-  - {fileID: -3966699262346776589}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1096,7 +1177,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: f3ad5a07c54c40348a18a277590bb336, type: 2}
+  m_Motion: {fileID: 7400000, guid: efc3fff6de038ac40a61784e5f3ed065, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
