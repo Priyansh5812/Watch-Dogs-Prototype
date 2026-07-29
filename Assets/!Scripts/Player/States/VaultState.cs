@@ -17,6 +17,7 @@ public class VaultState : IPlayerState
 
     public void OnEnter(Action OnCompleted = null)
     {   
+        Debug.Log("Entered Vault State");
         src = new();
         ctx = driver.GetVaultContext();
         PrepareStartup();
@@ -26,17 +27,8 @@ public class VaultState : IPlayerState
     void PrepareStartup()
     {   
         //Time.timeScale = 0.45f;
-        driver.Animator.SetTrigger(ctx.trigger.triggerName);
-        if(!ctx.trigger.useLastSpeed)
-        {
-            Vector3 moveDirection = driver.CurrentVelocity.normalized;
-            driver.CurrentVelocity = moveDirection * ctx.trigger.postTriggerSpeed;
-        }
-        else
-        {
-            driver.CurrentVelocity = Vector3.ClampMagnitude(driver.CurrentVelocity , ctx.trigger.maxPostTriggerSpeed);
-        }
-
+        driver.CurrentVelocity /= 1.5f;
+        driver.Animator.SetTrigger(ctx.trigger);
     }
 
     public void OnUpdate()
@@ -53,24 +45,9 @@ public class VaultState : IPlayerState
     public void OnCheckTransition()
     {   
         if(src.IsCancellationRequested)
-        {
-            //driver.InitiateStateChange(ctx.lastStateType);
-
-            Type type;
-            if(ctx.trigger.postTriggerSpeed <= driver.Data.MaxWalkSpeed)
-            {
-                type = typeof(WalkState);
-            }
-            else if(ctx.trigger.postTriggerSpeed <= driver.Data.MaxJogSpeed)
-            {
-                type = typeof(JogState);
-            }
-            else
-            {
-                type = typeof(RunState);
-            }
-
-            driver.InitiateStateChange(type);
+        {   
+            
+            driver.InitiateStateChange(ctx.lastStateType);
         }
     }
 

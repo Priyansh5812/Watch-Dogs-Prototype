@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98449371f019be74e9689c20eb4e5f73, type: 3}
+  m_Name: HitCount_2
+  m_EditorClassIdentifier: 
+  evaluationType: 1
+  comparisonTarget: 1
+  comparisonField: 2
+  minComparisonField: 0
+  maxComparisonField: 0
+  followupAssets:
+  - {fileID: 11400000, guid: 2d43c0705f35f514ea708399b0574034, type: 2}

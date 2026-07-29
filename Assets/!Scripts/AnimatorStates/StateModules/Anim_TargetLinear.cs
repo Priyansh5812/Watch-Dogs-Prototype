@@ -12,16 +12,18 @@ public class Anim_TargetLinear : AnimModuleBase
     float t;
     Vector3 fromPoint, targetPoint;
     Ease ease;
-    AnchorPointOverride anchorOverride;
-
-    public Anim_TargetLinear(PlayerStateDriver driver, Vector3[] points, AnimatorStateInfo info, float additionalSpeedMultiplier, Ease ease, AnchorPointOverride anchorOverride)
+    AnchorPointsOverride anchorOverride;
+    (int, int) indices;
+    bool performHeightAdjustment;
+    public Anim_TargetLinear(PlayerStateDriver driver, Vector3[] points, AnimatorStateInfo info, (int, int) indices, bool performHeightAdjustment, Ease ease, AnchorPointsOverride anchorOverride)
     {
         this.driver = driver;
         this.points = points;
         this.duration = info.length;
-        this.speed = (points[0] - points[1]).magnitude / (duration / info.speed);
-        this.speed *= additionalSpeedMultiplier;
+        this.indices = indices;
+        this.speed = (points[indices.Item1] - points[indices.Item2]).magnitude / (duration / info.speed);
         this.anchorOverride = anchorOverride;
+        this.performHeightAdjustment = performHeightAdjustment;
         Debug.Log(speed);
         this.ease = ease;
     }
@@ -30,17 +32,24 @@ public class Anim_TargetLinear : AnimModuleBase
     {
         t = 0;
         PerformAnchorPointOverride();
-        float desiredHeight = Mathf.Abs(points[1].y - points[0].y);
-        float ratio = desiredHeight / authoredHeight;
-        Debug.Log("Desired Height "+desiredHeight);
-        Debug.Log("Ratio: " + ratio);
-        float YOffset = points[1].y * ratio;
-        float diff = YOffset - points[1].y;
-        targetPoint.y += diff;
+        PerformHeightAdjustment();
         driver.StartCoroutine(DebugRoutine());
+        //Time.timeScale = 0.25f;
     }
 
+    void PerformHeightAdjustment()
+    {
+        if (!performHeightAdjustment)
+            return;
 
+        float desiredHeight = Mathf.Abs(points[indices.Item2].y - points[indices.Item1].y);
+        float ratio = desiredHeight / authoredHeight;
+        Debug.Log("Desired Height " + desiredHeight);
+        Debug.Log("Ratio: " + ratio);
+        float YOffset = points[indices.Item2].y * ratio;
+        float diff = YOffset - points[indices.Item2].y;
+        targetPoint.y += diff;
+    }
 
     public void Process()
     {
@@ -50,7 +59,6 @@ public class Anim_TargetLinear : AnimModuleBase
         }
 
         driver.transform.position = ProcessInterpolation(fromPoint, targetPoint, ref t);
-
     }
 
     IEnumerator DebugRoutine()
@@ -75,25 +83,16 @@ public class Anim_TargetLinear : AnimModuleBase
 
     void PerformAnchorPointOverride()
     {
-        fromPoint = points[0];
-        targetPoint = points[1];
+        fromPoint = points[indices.Item1];
+        targetPoint = points[indices.Item2];
 
         switch (anchorOverride)
         {
-            case AnchorPointOverride.NONE:
+            case AnchorPointsOverride.NONE:
             default:
                 break;
-
-            case AnchorPointOverride.PROJECT_X:
-                targetPoint.x = fromPoint.x;
-                break;
-
-            case AnchorPointOverride.PROJECT_Y:
-                targetPoint.y = fromPoint.y;
-                break;
-
-            case AnchorPointOverride.PROJECT_Z:
-                targetPoint.z = fromPoint.z;
+            case AnchorPointsOverride.LAST_Y:
+                fromPoint.y = targetPoint.y = driver.transform.position.y;
                 break;
         }
         

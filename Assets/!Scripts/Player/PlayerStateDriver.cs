@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using AYellowpaper.SerializedCollections;
-using System.Buffers;
-using System.ComponentModel;
-using Unity.Collections;
+
 public partial class PlayerStateDriver : MonoBehaviour
 {   
     [field:SerializeField] public CharacterController cc
@@ -26,11 +23,9 @@ public partial class PlayerStateDriver : MonoBehaviour
     {
         get; private set;
     }
-    
-    [field: SerializeField] public VaultTriggerStorage VaultTriggerData
-    {
-        get; private set;
-    }
+
+
+    [field : SerializeField] public DecisionAsset<string , VaultRequestParams> AnimationDatabase;
 
     public bool IsUnderRootRotation
     {
@@ -75,7 +70,7 @@ public partial class PlayerStateDriver : MonoBehaviour
 
     void OnEnable()
     {   
-        vaultModule ??= new(this , VaultTriggerData);
+        vaultModule ??= new(this , AnimationDatabase);
     }
     void Start()
     {   

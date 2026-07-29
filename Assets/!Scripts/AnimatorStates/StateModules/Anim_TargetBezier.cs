@@ -94,10 +94,8 @@ public enum AnchorPointType
     DOWN_FORWARD
 }
 
-public enum AnchorPointOverride
+public enum AnchorPointsOverride
 { 
     NONE,
-    PROJECT_X,
-    PROJECT_Y,
-    PROJECT_Z
+    LAST_Y
 }

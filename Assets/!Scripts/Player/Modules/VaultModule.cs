@@ -6,16 +6,15 @@ using System.Buffers;
 public class VaultModule : IDisposable
 {
     PlayerStateDriver driver;
-    VaultTriggerStorage data;
     List<RaycastInfo> raycastPoints; 
     RaycastHit[] buffer;
     VaultContext vContext;
     Vector3[] traversalPoints;
-
-    public VaultModule(PlayerStateDriver driver , VaultTriggerStorage data)
+    DecisionAsset<string , VaultRequestParams> AnimationDatabase;
+    public VaultModule(PlayerStateDriver driver , DecisionAsset<string , VaultRequestParams> AnimationDatabase)
     {
         this.driver = driver;
-        this.data = data;
+        this.AnimationDatabase = AnimationDatabase;
         this.raycastPoints = driver.raycastPoints;
         buffer = ArrayPool<RaycastHit>.Shared.Rent(5);
         traversalPoints = ArrayPool<Vector3>.Shared.Rent(3);
@@ -42,33 +41,31 @@ public class VaultModule : IDisposable
             
         }
 
-        if(data.DoesHitCountExist(c))
-        {   
-            VaultTriggerData data = this.data.GetTriggerData(c);
-            TriggerInfo triggerInfo = data.GetRandomTrigger();
+        VaultRequestParams req = new();
 
-            // Yes I am in range of an obstacle where I can perform the animation
-            if(minPointDistance >= triggerInfo.minTriggerAnimationDistance && minPointDistance <= triggerInfo.maxTriggerAnimationDistance)
-            {   
-                float surfaceArea = DetermineObstacleSurfaceToCover(minPointDistance);
-                
-                vContext = new VaultContext(){trigger = triggerInfo};
-                vContext.traversalPoints = this.traversalPoints;
+        req.ObstacleRayHitCount = c;
+        req.ObstacleProximity = minPointDistance;
 
-                switch(driver.GetCurrentState())
-                {
-                    case RunState:
-                        vContext.lastStateType = typeof(RunState);
-                        break;
-                    case JogState:
-                        vContext.lastStateType = typeof(JogState);
-                        break;
-                    default:
-                        break;
-                }
-                data.UpdateRandomIndex();
-                driver.InitiateStateChange(typeof(VaultState));
+        string vaultTrigger = AnimationDatabase.Run(ref req);
+
+        if(!string.IsNullOrEmpty(vaultTrigger))
+        {
+            vContext = new VaultContext();
+            vContext.trigger = vaultTrigger;
+            vContext.traversalPoints = this.traversalPoints;
+
+            switch(driver.GetCurrentState())
+            {
+                case RunState:
+                    vContext.lastStateType = typeof(RunState);
+                    break;
+                case JogState:
+                    vContext.lastStateType = typeof(JogState);
+                    break;
+                default:
+                    break;
             }
+            driver.InitiateStateChange(typeof(VaultState));
         }
     }
 
@@ -88,6 +85,11 @@ public class VaultModule : IDisposable
         GenerateTraversalPoints(startPoint, endPoint);
 
         return (endPoint - startPoint).magnitude;
+    }
+
+    float DetermineSurfaceHeight()
+    {
+        return (traversalPoints[1] - traversalPoints[0]).magnitude;
     }
 
     void GenerateTraversalPoints(Vector3 startPoint, Vector3 endPoint)

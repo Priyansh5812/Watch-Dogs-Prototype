@@ -60,9 +60,10 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     easeType: 0
-    anchorPointType: 0
     anchorPointOverride: 0
-    targetingSpeedMultiplier: 0
+    startPointIndex: 0
+    endPointIndex: 0
+    performHeightAdjustment: 0
     toggle: 0
   stateUpdate:
   - moduleType: 4
@@ -71,9 +72,10 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     easeType: 0
-    anchorPointType: 0
     anchorPointOverride: 0
-    targetingSpeedMultiplier: 0
+    startPointIndex: 0
+    endPointIndex: 0
+    performHeightAdjustment: 0
     toggle: 0
   - moduleType: 2
     Threshold: 0.375
@@ -93,9 +95,10 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
     easeType: 0
-    anchorPointType: 0
     anchorPointOverride: 0
-    targetingSpeedMultiplier: 0
+    startPointIndex: 0
+    endPointIndex: 0
+    performHeightAdjustment: 0
     toggle: 0
   stateExit:
   - moduleType: 3
@@ -104,9 +107,10 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     easeType: 0
-    anchorPointType: 0
     anchorPointOverride: 0
-    targetingSpeedMultiplier: 0
+    startPointIndex: 0
+    endPointIndex: 0
+    performHeightAdjustment: 0
     toggle: 0
 --- !u!1101 &-8766544177057830753
 AnimatorStateTransition:
@@ -187,10 +191,10 @@ AnimatorStateMachine:
     m_Position: {x: 500, y: 420, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8537355201425677479}
-    m_Position: {x: 510, y: 690, z: 0}
+    m_Position: {x: 510, y: 680, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 700926143026008902}
-    m_Position: {x: 490, y: 900, z: 0}
+    m_Position: {x: 510, y: 900, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4390303221858970610}
     m_Position: {x: -20, y: 900, z: 0}
@@ -276,6 +280,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a24177ad7fc6d1646aceaad772f0f36f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1101 &-4751508403082312372
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions: []
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 700926143026008902}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.22451478
+  m_TransitionOffset: 0.006432417
+  m_ExitTime: 0.8760875
+  m_HasExitTime: 1
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!114 &-4734201679848415063
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -295,9 +321,10 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     easeType: 0
-    anchorPointType: 0
     anchorPointOverride: 0
-    targetingSpeedMultiplier: 0
+    startPointIndex: 0
+    endPointIndex: 0
+    performHeightAdjustment: 0
     toggle: 1
   stateUpdate:
   - moduleType: 6
@@ -306,21 +333,12 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     easeType: 2
-    anchorPointType: 0
-    anchorPointOverride: 2
-    targetingSpeedMultiplier: 1
+    anchorPointOverride: 1
+    startPointIndex: 0
+    endPointIndex: 1
+    performHeightAdjustment: 1
     toggle: 0
-  stateExit:
-  - moduleType: 7
-    Threshold: 0
-    Execution:
-      m_PersistentCalls:
-        m_Calls: []
-    easeType: 0
-    anchorPointType: 0
-    anchorPointOverride: 0
-    targetingSpeedMultiplier: 0
-    toggle: 0
+  stateExit: []
 --- !u!1102 &-4677148484662507322
 AnimatorState:
   serializedVersion: 6
@@ -546,6 +564,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-2015227355298360034
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a2e9fd66555b114396eb2c554bcddb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateEnter: []
+  stateUpdate:
+  - moduleType: 6
+    Threshold: 0
+    Execution:
+      m_PersistentCalls:
+        m_Calls: []
+    easeType: 3
+    anchorPointOverride: 1
+    startPointIndex: 1
+    endPointIndex: 2
+    performHeightAdjustment: 0
+    toggle: 0
+  stateExit: []
 --- !u!206 &-1931912795209182927
 BlendTree:
   m_ObjectHideFlags: 1
@@ -604,9 +648,10 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     easeType: 0
-    anchorPointType: 0
     anchorPointOverride: 0
-    targetingSpeedMultiplier: 0
+    startPointIndex: 0
+    endPointIndex: 0
+    performHeightAdjustment: 0
     toggle: 0
   stateUpdate:
   - moduleType: 4
@@ -615,9 +660,10 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     easeType: 0
-    anchorPointType: 0
     anchorPointOverride: 0
-    targetingSpeedMultiplier: 0
+    startPointIndex: 0
+    endPointIndex: 0
+    performHeightAdjustment: 0
     toggle: 0
   - moduleType: 2
     Threshold: 0.31
@@ -637,9 +683,10 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
     easeType: 0
-    anchorPointType: 0
     anchorPointOverride: 0
-    targetingSpeedMultiplier: 0
+    startPointIndex: 0
+    endPointIndex: 0
+    performHeightAdjustment: 0
     toggle: 0
   stateExit:
   - moduleType: 3
@@ -648,9 +695,10 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     easeType: 0
-    anchorPointType: 0
     anchorPointOverride: 0
-    targetingSpeedMultiplier: 0
+    startPointIndex: 0
+    endPointIndex: 0
+    performHeightAdjustment: 0
     toggle: 0
 --- !u!206 &-864506958336079945
 BlendTree:
@@ -802,10 +850,11 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: VaultSlide
-  m_Speed: 1
+  m_Speed: 0.35
   m_CycleOffset: 0
   m_Transitions: []
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -2015227355298360034}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -814,7 +863,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 551f456be06cdb749bd479ac5b90b0b8, type: 2}
+  m_Motion: {fileID: 7400000, guid: a54c2df00a831a347886052b09f8d39b, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -870,9 +919,10 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     easeType: 0
-    anchorPointType: 0
     anchorPointOverride: 0
-    targetingSpeedMultiplier: 0
+    startPointIndex: 0
+    endPointIndex: 0
+    performHeightAdjustment: 0
     toggle: 0
   stateUpdate:
   - moduleType: 4
@@ -881,9 +931,10 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     easeType: 0
-    anchorPointType: 0
     anchorPointOverride: 0
-    targetingSpeedMultiplier: 0
+    startPointIndex: 0
+    endPointIndex: 0
+    performHeightAdjustment: 0
     toggle: 0
   - moduleType: 2
     Threshold: 0.375
@@ -903,9 +954,10 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
     easeType: 0
-    anchorPointType: 0
     anchorPointOverride: 0
-    targetingSpeedMultiplier: 0
+    startPointIndex: 0
+    endPointIndex: 0
+    performHeightAdjustment: 0
     toggle: 0
   stateExit:
   - moduleType: 3
@@ -914,9 +966,10 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     easeType: 0
-    anchorPointType: 0
     anchorPointOverride: 0
-    targetingSpeedMultiplier: 0
+    startPointIndex: 0
+    endPointIndex: 0
+    performHeightAdjustment: 0
     toggle: 0
 --- !u!1102 &2724615354947299253
 AnimatorState:
@@ -1278,7 +1331,8 @@ AnimatorState:
   m_Name: VaultStart
   m_Speed: 0.65
   m_CycleOffset: 0
-  m_Transitions: []
+  m_Transitions:
+  - {fileID: -4751508403082312372}
   m_StateMachineBehaviours:
   - {fileID: -4734201679848415063}
   m_Position: {x: 50, y: 50, z: 0}
@@ -1289,7 +1343,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: b89186fa5b378294abdb86131f205543, type: 2}
+  m_Motion: {fileID: 7400000, guid: db3e9af2935c0e14c829d3bf60c08588, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

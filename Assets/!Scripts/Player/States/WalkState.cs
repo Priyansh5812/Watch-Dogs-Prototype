@@ -13,6 +13,7 @@ public class WalkState : IPlayerState
 
     public void OnEnter(Action OnCompleted = null)
     {   
+        Debug.Log("Entered Walk State");
         OnCompleted?.Invoke();
     }
 
@@ -52,8 +53,9 @@ public class WalkState : IPlayerState
             driver.InitiateStateChange(typeof(IdleState));
         }
 
-        else if(driver.CurrentVelocity.sqrMagnitude >= ((driver.Data.MaxWalkSpeed * driver.Data.MaxWalkSpeed)))
-        {
+        else if(driver.CurrentVelocity.sqrMagnitude > ((driver.Data.MaxWalkSpeed * driver.Data.MaxWalkSpeed)))
+        {   
+            Debug.LogWarning($"WALK ==> {driver.CurrentVelocity.sqrMagnitude} : {(driver.Data.MaxWalkSpeed) * (driver.Data.MaxWalkSpeed)}");
             driver.InitiateStateChange(typeof(JogState));
         }
 

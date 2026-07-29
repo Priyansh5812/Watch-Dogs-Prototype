@@ -11,9 +11,11 @@ public class AnimModuleConstructor
 
     [Header("Targeting")]
     public PrimeTween.Ease easeType;
-    public AnchorPointType anchorPointType;
-    public AnchorPointOverride anchorPointOverride;
-    [Range(0.001f , 1f)] public float targetingSpeedMultiplier;
+    public AnchorPointsOverride anchorPointOverride;
+    public int startPointIndex;
+    public int endPointIndex;
+    public bool performHeightAdjustment;
+    //public AnchorPointType anchorPointType;
 
     [Header("Player Driver Simulation")]
     public bool toggle;
@@ -37,15 +39,14 @@ public class AnimModuleConstructor
             case AnimModuleType.MATCH_ROOT_LOCATION:
                 return new Anim_MatchRootLocation(animator, driver);
 
-            case AnimModuleType.BEZIER_TARGETING:
-                return new Anim_TargetBezier(driver, ctx.traversalPoints, info, targetingSpeedMultiplier, easeType, anchorPointType);
-
             case AnimModuleType.DIRECT_TARGETING:
-                return new Anim_TargetLinear(driver, ctx.traversalPoints, info, targetingSpeedMultiplier, easeType, anchorPointOverride);
+                return new Anim_TargetLinear(driver, ctx.traversalPoints, info,(startPointIndex , endPointIndex), performHeightAdjustment, easeType, anchorPointOverride);
 
             case AnimModuleType.DRIVER_SIM_PASS:
                 return new Anim_TogglePlayerStateDriverPositioningPass(driver , toggle);
 
+            //case AnimModuleType.BEZIER_TARGETING:
+            //    return new Anim_TargetBezier(driver, ctx.traversalPoints, info, targetingSpeedMultiplier, easeType, anchorPointType);
             default:
                 return null;
         }

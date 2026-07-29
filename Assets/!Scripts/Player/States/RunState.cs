@@ -14,6 +14,7 @@ public class RunState : IPlayerState
 
     public void OnEnter(Action OnCompleted = null)
     {   
+        Debug.Log("Entered Run State");
         OnCompleted?.Invoke();
     }
 

@@ -13,6 +13,7 @@ public class JogState : IPlayerState
 
     public void OnEnter(Action OnCompleted = null)
     {   
+        Debug.Log("Entered Jog State");
         OnCompleted?.Invoke();
     }
 
@@ -33,7 +34,7 @@ public class JogState : IPlayerState
         }
         else
         {   
-            driver.CurrentVelocity -= driver.CurrentVelocity * driver.Data.DeacclarationForJog* Time.fixedDeltaTime;
+            driver.CurrentVelocity -= driver.CurrentVelocity * driver.Data.DeacclarationForJog * Time.fixedDeltaTime;
         }
         
         
@@ -51,12 +52,13 @@ public class JogState : IPlayerState
 
     public void OnCheckTransition()
     {
-        if(driver.CurrentVelocity.sqrMagnitude <= (driver.Data.MaxJogSpeed/2) * (driver.Data.MaxJogSpeed/2) && _inputManager.GetInput().sqrMagnitude <= 0.01f)
-        {
+        if(driver.CurrentVelocity.sqrMagnitude <= ((driver.Data.MaxWalkSpeed) * (driver.Data.MaxWalkSpeed)) && _inputManager.GetInput().sqrMagnitude <= 0.01f)
+        {   
+            Debug.LogWarning($"JOG ==> {driver.CurrentVelocity.sqrMagnitude} : {((driver.Data.MaxWalkSpeed) * (driver.Data.MaxWalkSpeed))}");
             driver.InitiateStateChange(typeof(WalkState));
         }
 
-        else if(driver.CurrentVelocity.sqrMagnitude >= (driver.Data.MaxJogSpeed * driver.Data.MaxJogSpeed)&& Input.GetKey(KeyCode.LeftShift))
+        else if(driver.CurrentVelocity.sqrMagnitude >= (driver.Data.MaxJogSpeed * driver.Data.MaxJogSpeed) && Input.GetKey(KeyCode.LeftShift))
         {
            driver.InitiateStateChange(typeof(RunState));
         }
