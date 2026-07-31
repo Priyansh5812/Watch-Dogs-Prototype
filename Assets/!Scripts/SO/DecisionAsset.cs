@@ -15,7 +15,7 @@ public abstract class DecisionAsset<T1 , T2> : ScriptableObject where T2 : struc
             }
             catch
             {
-                throw new System.Exception($"Asset trail is compromised, Duplicated Asset : {asset.name}");
+                throw new System.Exception($"Asset trail is compromised\nDuplicated Asset : {asset.name}");
             }
         }
 
@@ -33,7 +33,7 @@ public abstract class DecisionAsset<T1 , T2> : ScriptableObject where T2 : struc
             }
             catch
             {
-                throw new System.Exception($"Asset trail is compromised, Unknown Asset : {asset.name}");
+                throw new System.Exception($"Asset trail is compromised\nUnknown Asset : {asset.name}");
             }
         }
     }

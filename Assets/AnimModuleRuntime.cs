@@ -25,7 +25,6 @@ public class AnimModuleRuntime : StateMachineBehaviour , IDisposable
         {
             this.animator = animator;
             RefreshDriverModule();
-
             entryExecutions = ArrayPool<AnimModuleBase>.Shared.Rent(stateEnter.Length);
             updateExecutions = ArrayPool<AnimModuleBase>.Shared.Rent(stateUpdate.Length);
             exitExecutions = ArrayPool<AnimModuleBase>.Shared.Rent(stateExit.Length);

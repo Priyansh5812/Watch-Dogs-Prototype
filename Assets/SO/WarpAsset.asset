@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd083d7446291ac4a822a74b188507bc, type: 3}
+  m_Name: WarpAsset
+  m_EditorClassIdentifier: 
+  TargetClip: {fileID: 7400000, guid: ff11456e5029839458a0d87ad3766cef, type: 2}
+  PreviewPrefab: {fileID: 919132149155446097, guid: b918a1d17b532664697e987e1e2b58d4, type: 3}
+  Start: 0.13510849
+  End: 0.9213675
+  PreviewTime: 0
