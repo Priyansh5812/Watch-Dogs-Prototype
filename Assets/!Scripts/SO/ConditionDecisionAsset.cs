@@ -1,18 +1,17 @@
 #if UNITY_EDITOR
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEditor;
 #endif
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Decision Asset" , menuName = "Scriptable Objects/New Decision Asset")]
-public class ConditionDecisionAsset : DecisionAsset<string , VaultRequestParams>
+public class ConditionDecisionAsset : DecisionAsset<ResultAsset , VaultRequestParams>
 {   
     [SerializeField] EvaluationType evaluationType;
     [SerializeField] ComparisonTarget comparisonTarget;
     [SerializeField] float comparisonField;
     [SerializeField] float minComparisonField;
     [SerializeField] float maxComparisonField;
-    [SerializeField] DecisionAsset<string, VaultRequestParams>[] followupAssets;
+    [SerializeField] DecisionAsset<ResultAsset, VaultRequestParams>[] followupAssets;
     bool Evaluate(ref VaultRequestParams req)
     {
         float targetValue;
@@ -61,10 +60,10 @@ public class ConditionDecisionAsset : DecisionAsset<string , VaultRequestParams>
     bool IsEqual(float value) => Mathf.Abs(value - comparisonField) < 0.001f;
     bool IsInRange(float value) => minComparisonField <= value && maxComparisonField >= value;
 
-    string FollowupDecision(ref VaultRequestParams req)
+    ResultAsset FollowupDecision(ref VaultRequestParams req)
     {   
         if(followupAssets == null)
-            return string.Empty;
+            return null;
 
         foreach (var asset in followupAssets)
         {
@@ -72,28 +71,28 @@ public class ConditionDecisionAsset : DecisionAsset<string , VaultRequestParams>
                 continue;
             this.AddAssetToTrail(asset);
 
-            string res = asset.Run(ref req);
+            ResultAsset res = asset.Run(ref req);
             
             this.RemoveAssetFromTrail(asset);
             
-            if (string.IsNullOrEmpty(res))
+            if (res == null)
                 continue;
 
             return res;
         }
 
-        return string.Empty;
+        return null;
     }
 
 
-    public override string Run(ref VaultRequestParams req)
+    public override ResultAsset Run(ref VaultRequestParams req)
     {
         if (Evaluate(ref req))
         {
             return FollowupDecision(ref req);
         }
 
-         return string.Empty;
+         return null;
     }
 
     private void OnValidate()

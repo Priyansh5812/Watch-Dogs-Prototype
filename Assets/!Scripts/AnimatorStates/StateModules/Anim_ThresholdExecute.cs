@@ -1,21 +1,19 @@
 using UnityEngine;
-using UnityEngine.Events;
 using System;
 
 public class Anim_ThresholdExecute : AnimModuleBase
 {   
-    UnityEvent targetAction;
+    
     float threshold;
-
     float duration;
     float t_duration;
-
+    AnimModuleBase module;
     bool isExecuted = false;
-    public Anim_ThresholdExecute(float duration , UnityEvent targetAction, float threshold)
+    public Anim_ThresholdExecute(float duration , AnimModuleBase module , float threshold)
     {   
         this.duration = duration;
-        this.targetAction = targetAction;
         this.threshold = threshold;
+        this.module = module;
     }
 
     public void Refresh()
@@ -33,7 +31,7 @@ public class Anim_ThresholdExecute : AnimModuleBase
         
         if((t_duration / duration) < threshold)
         {   
-            targetAction?.Invoke();
+            module?.Process();
             isExecuted = true;      
         }
     }

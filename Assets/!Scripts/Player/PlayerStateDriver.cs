@@ -24,8 +24,13 @@ public partial class PlayerStateDriver : MonoBehaviour
         get; private set;
     }
 
+    public DecisionAsset<ResultAsset , VaultRequestParams> AnimationDatabase;
 
-    [field : SerializeField] public DecisionAsset<string , VaultRequestParams> AnimationDatabase;
+    [field : SerializeField] public RootMotionRuntime _RootMotionRuntime
+    {
+        get;
+        private set;
+    }
 
     public bool IsUnderRootRotation
     {
@@ -78,6 +83,7 @@ public partial class PlayerStateDriver : MonoBehaviour
     }
 
 
+    
      void Update()
     {   
         if (isChangingState || currentState == null)

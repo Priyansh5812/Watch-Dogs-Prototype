@@ -17,10 +17,12 @@ public class Anim_RootMotionDisabled : AnimModuleBase
     }
 
     public void Process()
-    {
-        anim.gameObject.transform.SetParent(driver.transform);
+    {   
+        
+        anim.transform.SetParent(driver.transform);
         driver.IsUnderRootRotation = false;
         anim.applyRootMotion = false;
-        anim.gameObject.transform.localScale = Vector3.one;
+        anim.transform.localScale = Vector3.one;
+        anim.transform.localPosition = Vector3.zero;
     }
 }

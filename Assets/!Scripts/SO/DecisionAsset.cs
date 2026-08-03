@@ -79,7 +79,7 @@ public struct RaycastInfo
 [System.Serializable]
 public struct VaultContext
 {
-    public string trigger;
+    public ResultAsset trigger;
     public System.Type lastStateType;
     public Vector3[] traversalPoints;
 }

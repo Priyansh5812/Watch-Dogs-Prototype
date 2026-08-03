@@ -13,6 +13,8 @@ public class WarpAssetEditor : Editor
     SerializedProperty end;
     SerializedProperty preview;
     SerializedProperty previewPrefab;
+    SerializedProperty positionCurves;
+    SerializedProperty bakeArray;
 
     const float TimelineHeight = 40f;
     const float MarkerWidth = 10f;
@@ -27,6 +29,11 @@ public class WarpAssetEditor : Editor
     float zoomSpeed = 0.15f;
     float panSpeed = 0.01f;
     float rotateSpeed = 0.25f;
+
+    TransformData[] BakedData;
+    const int SampleRate = 60;
+
+
     void OnEnable()
     {
         clip = serializedObject.FindProperty("TargetClip");
@@ -34,7 +41,8 @@ public class WarpAssetEditor : Editor
         end = serializedObject.FindProperty("End");
         preview = serializedObject.FindProperty("PreviewTime");
         previewPrefab = serializedObject.FindProperty("PreviewPrefab");
-
+        positionCurves = serializedObject.FindProperty("Pos_WarpScaleCurves");
+        bakeArray = serializedObject.FindProperty("BakedData");
         renderUtil = new();
     }
 
@@ -50,12 +58,64 @@ public class WarpAssetEditor : Editor
         if (clip.objectReferenceValue != null)
         {
             DrawTimeline();
+            EditorGUILayout.PropertyField(positionCurves);
+            GUILayout.Space(20);
+            string str = (bakeArray == null || bakeArray.arraySize == 0) ? "Unbaked" : "Baked";
+            GUILayout.Label(str);
+            GUILayout.Space(20);
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Space(20);
+            if(GUILayout.Button("Bake"))
+            {
+                Bake();
+            }
+            GUILayout.Space(20);
+            EditorGUILayout.EndHorizontal();
         }
-
 
         EnsurePreviewEditor();
         UpdatePreviewedTargetAnimation();
         serializedObject.ApplyModifiedProperties();
+    }
+
+    public void Bake()
+    {   
+        AnimationClip clip = (AnimationClip)this.clip.objectReferenceValue;
+        float startLength = clip.length * start.floatValue;
+        float endLength = clip.length * end.floatValue;
+        float reqLength = endLength - startLength;
+        int count = Mathf.CeilToInt(reqLength) * SampleRate;
+        BakedData = new TransformData[count+1];
+        Vector3 originalPos = default; 
+        Quaternion originalRot = default;
+        Vector3 authoredScales = Vector3.zero; 
+        for (int i = 0; i <= count; i++) 
+        { 
+            float t = startLength + (i / (float)count) * reqLength;
+            clip.SampleAnimation(previewObject,t);
+
+            if(i == 0)
+            {
+                originalPos = previewObject.transform.position;
+                originalRot = previewObject.transform.rotation;
+            }
+
+
+            var data = new TransformData();
+            data.Position = Quaternion.Inverse(originalRot) * (previewObject.transform.position - originalPos); 
+            data.Rotation = Quaternion.Inverse(originalRot) * previewObject.transform.rotation;
+
+            authoredScales.x = Mathf.Max(authoredScales.x , data.Position.x);
+            authoredScales.y = Mathf.Max(authoredScales.y , data.Position.y);
+            authoredScales.z = Mathf.Max(authoredScales.z , data.Position.z);
+
+            BakedData[i] = data;
+        }
+
+        SerializedProperty authoredValues = positionCurves.FindPropertyRelative("AuthoredAxisScales");
+        authoredValues.vector3Value = authoredScales;
+        bakeArray.SetUnderlyingValue(BakedData);
+        EditorUtility.SetDirty(this);
     }
 
 
@@ -69,12 +129,7 @@ public class WarpAssetEditor : Editor
             return;
         GameObject targetObject = previewPrefab.objectReferenceValue as GameObject;
         previewObject = renderUtil.InstantiatePrefabInScene(targetObject);
-        previewObject.hideFlags = HideFlags.HideAndDontSave;
-        foreach (var r in previewObject.GetComponentsInChildren<Renderer>())
-        {
-            Debug.Log(r.sharedMaterial.shader.name);
-        }
-        
+        previewObject.hideFlags = HideFlags.HideAndDontSave;       
         var ground = new GameObject("Ground");
         var filter = ground.AddComponent<MeshFilter>();
         filter.mesh = Resources.GetBuiltinResource<Mesh>("Quad.fbx");
@@ -114,18 +169,12 @@ public class WarpAssetEditor : Editor
         allowScriptableRenderPipeline: true,
         updatefov: false);
         GUI.DrawTexture(r, renderUtil.EndPreview(), ScaleMode.StretchToFill, false);
-        DebugMe();
     }
 
     /// <summary>
     /// Prints the current camera anchor transform for debugging.
     /// Remove or wrap in conditional compilation when no longer needed.
     /// </summary>
-    public void DebugMe()
-    {
-        Debug.Log(cameraAnchor.transform.position);
-        Debug.Log(cameraAnchor.transform.eulerAngles);
-    }
 
     // ------------------------------------------------------------------------
     // Preview Camera Controls

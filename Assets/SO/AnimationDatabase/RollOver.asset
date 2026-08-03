@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: RollOver
   m_EditorClassIdentifier: 
   targetValue: RollOver
+  warpAsset: {fileID: 11400000, guid: 6b68ba8a0f93aa84aa8b44609efc04dd, type: 2}

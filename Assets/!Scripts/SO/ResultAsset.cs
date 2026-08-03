@@ -1,9 +1,9 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ResultAsset", menuName = "Scriptable Objects/New Result Asset")]
-public class ResultAsset : DecisionAsset<string, VaultRequestParams>
+public class ResultAsset : DecisionAsset<ResultAsset, VaultRequestParams>
 {
-    [SerializeField] string targetValue;
-
-    public override string Run(ref VaultRequestParams data) => targetValue;
+    [SerializeField] public string targetValue;
+    [SerializeField] public WarpAsset warpAsset;
+    public override ResultAsset Run(ref VaultRequestParams data) => this;
 }

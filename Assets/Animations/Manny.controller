@@ -55,10 +55,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateEnter:
   - moduleType: 0
+    config:
+      MatchX: 0
+      MatchY: 0
+      MatchZ: 0
     Threshold: 0
-    Execution:
-      m_PersistentCalls:
-        m_Calls: []
+    postThresholdExecutionType: 0
     easeType: 0
     anchorPointOverride: 0
     startPointIndex: 0
@@ -67,10 +69,12 @@ MonoBehaviour:
     toggle: 0
   stateUpdate:
   - moduleType: 4
+    config:
+      MatchX: 0
+      MatchY: 0
+      MatchZ: 0
     Threshold: 0
-    Execution:
-      m_PersistentCalls:
-        m_Calls: []
+    postThresholdExecutionType: 0
     easeType: 0
     anchorPointOverride: 0
     startPointIndex: 0
@@ -78,22 +82,12 @@ MonoBehaviour:
     performHeightAdjustment: 0
     toggle: 0
   - moduleType: 2
+    config:
+      MatchX: 0
+      MatchY: 0
+      MatchZ: 0
     Threshold: 0.375
-    Execution:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: -8839785335269619711}
-          m_TargetAssemblyTypeName: AnimModuleRuntime, Assembly-CSharp
-          m_MethodName: DisableRootMotionAndReparent
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+    postThresholdExecutionType: 0
     easeType: 0
     anchorPointOverride: 0
     startPointIndex: 0
@@ -102,10 +96,12 @@ MonoBehaviour:
     toggle: 0
   stateExit:
   - moduleType: 3
+    config:
+      MatchX: 0
+      MatchY: 0
+      MatchZ: 0
     Threshold: 0
-    Execution:
-      m_PersistentCalls:
-        m_Calls: []
+    postThresholdExecutionType: 0
     easeType: 0
     anchorPointOverride: 0
     startPointIndex: 0
@@ -316,10 +312,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateEnter:
   - moduleType: 7
+    config:
+      MatchX: 0
+      MatchY: 0
+      MatchZ: 0
     Threshold: 0
-    Execution:
-      m_PersistentCalls:
-        m_Calls: []
+    postThresholdExecutionType: 0
     easeType: 0
     anchorPointOverride: 0
     startPointIndex: 0
@@ -328,10 +326,12 @@ MonoBehaviour:
     toggle: 1
   stateUpdate:
   - moduleType: 6
+    config:
+      MatchX: 0
+      MatchY: 0
+      MatchZ: 0
     Threshold: 0
-    Execution:
-      m_PersistentCalls:
-        m_Calls: []
+    postThresholdExecutionType: 0
     easeType: 2
     anchorPointOverride: 1
     startPointIndex: 0
@@ -579,10 +579,12 @@ MonoBehaviour:
   stateEnter: []
   stateUpdate:
   - moduleType: 6
+    config:
+      MatchX: 0
+      MatchY: 0
+      MatchZ: 0
     Threshold: 0
-    Execution:
-      m_PersistentCalls:
-        m_Calls: []
+    postThresholdExecutionType: 0
     easeType: 3
     anchorPointOverride: 1
     startPointIndex: 1
@@ -643,10 +645,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateEnter:
   - moduleType: 0
+    config:
+      MatchX: 0
+      MatchY: 0
+      MatchZ: 0
     Threshold: 0
-    Execution:
-      m_PersistentCalls:
-        m_Calls: []
+    postThresholdExecutionType: 0
     easeType: 0
     anchorPointOverride: 0
     startPointIndex: 0
@@ -655,10 +659,12 @@ MonoBehaviour:
     toggle: 0
   stateUpdate:
   - moduleType: 4
+    config:
+      MatchX: 1
+      MatchY: 1
+      MatchZ: 1
     Threshold: 0
-    Execution:
-      m_PersistentCalls:
-        m_Calls: []
+    postThresholdExecutionType: 0
     easeType: 0
     anchorPointOverride: 0
     startPointIndex: 0
@@ -666,22 +672,12 @@ MonoBehaviour:
     performHeightAdjustment: 0
     toggle: 0
   - moduleType: 2
+    config:
+      MatchX: 0
+      MatchY: 0
+      MatchZ: 0
     Threshold: 0.31
-    Execution:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: -1635129457420323159}
-          m_TargetAssemblyTypeName: AnimModuleRuntime, Assembly-CSharp
-          m_MethodName: DisableRootMotionAndReparent
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+    postThresholdExecutionType: 1
     easeType: 0
     anchorPointOverride: 0
     startPointIndex: 0
@@ -690,10 +686,12 @@ MonoBehaviour:
     toggle: 0
   stateExit:
   - moduleType: 3
+    config:
+      MatchX: 0
+      MatchY: 0
+      MatchZ: 0
     Threshold: 0
-    Execution:
-      m_PersistentCalls:
-        m_Calls: []
+    postThresholdExecutionType: 0
     easeType: 0
     anchorPointOverride: 0
     startPointIndex: 0
@@ -914,10 +912,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateEnter:
   - moduleType: 0
+    config:
+      MatchX: 0
+      MatchY: 0
+      MatchZ: 0
     Threshold: 0
-    Execution:
-      m_PersistentCalls:
-        m_Calls: []
+    postThresholdExecutionType: 0
     easeType: 0
     anchorPointOverride: 0
     startPointIndex: 0
@@ -926,10 +926,12 @@ MonoBehaviour:
     toggle: 0
   stateUpdate:
   - moduleType: 4
+    config:
+      MatchX: 0
+      MatchY: 0
+      MatchZ: 0
     Threshold: 0
-    Execution:
-      m_PersistentCalls:
-        m_Calls: []
+    postThresholdExecutionType: 0
     easeType: 0
     anchorPointOverride: 0
     startPointIndex: 0
@@ -937,22 +939,12 @@ MonoBehaviour:
     performHeightAdjustment: 0
     toggle: 0
   - moduleType: 2
+    config:
+      MatchX: 0
+      MatchY: 0
+      MatchZ: 0
     Threshold: 0.375
-    Execution:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 2431703171058867398}
-          m_TargetAssemblyTypeName: AnimModuleRuntime, Assembly-CSharp
-          m_MethodName: DisableRootMotionAndReparent
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+    postThresholdExecutionType: 0
     easeType: 0
     anchorPointOverride: 0
     startPointIndex: 0
@@ -961,10 +953,12 @@ MonoBehaviour:
     toggle: 0
   stateExit:
   - moduleType: 3
+    config:
+      MatchX: 0
+      MatchY: 0
+      MatchZ: 0
     Threshold: 0
-    Execution:
-      m_PersistentCalls:
-        m_Calls: []
+    postThresholdExecutionType: 0
     easeType: 0
     anchorPointOverride: 0
     startPointIndex: 0

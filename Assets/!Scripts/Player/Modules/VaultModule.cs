@@ -10,8 +10,8 @@ public class VaultModule : IDisposable
     RaycastHit[] buffer;
     VaultContext vContext;
     Vector3[] traversalPoints;
-    DecisionAsset<string , VaultRequestParams> AnimationDatabase;
-    public VaultModule(PlayerStateDriver driver , DecisionAsset<string , VaultRequestParams> AnimationDatabase)
+    DecisionAsset<ResultAsset , VaultRequestParams> AnimationDatabase;
+    public VaultModule(PlayerStateDriver driver , DecisionAsset<ResultAsset , VaultRequestParams> AnimationDatabase)
     {
         this.driver = driver;
         this.AnimationDatabase = AnimationDatabase;
@@ -46,12 +46,14 @@ public class VaultModule : IDisposable
         req.ObstacleRayHitCount = c;
         req.ObstacleProximity = minPointDistance;
 
-        string vaultTrigger = AnimationDatabase.Run(ref req);
+        ResultAsset resultAsset = AnimationDatabase.Run(ref req);
 
-        if(!string.IsNullOrEmpty(vaultTrigger))
+        if(resultAsset != null && !string.IsNullOrEmpty(resultAsset.targetValue))
         {
+
+            DetermineObstacleSurfaceToCover(minPointDistance);
             vContext = new VaultContext();
-            vContext.trigger = vaultTrigger;
+            vContext.trigger = resultAsset;
             vContext.traversalPoints = this.traversalPoints;
 
             switch(driver.GetCurrentState())
