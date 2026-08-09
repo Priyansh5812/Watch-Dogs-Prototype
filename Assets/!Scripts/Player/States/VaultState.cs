@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 public class VaultState : IPlayerState
 {   
     PlayerStateDriver driver;
@@ -12,7 +13,9 @@ public class VaultState : IPlayerState
     float currentTime;
     bool isWarping; 
     float warpScaleMultiplier;
-    
+    float clipLength;
+    Vector3 dummyPosition;
+    Quaternion startRotation;
     public VaultState(PlayerStateDriver driver)
     {
         this.driver = driver;
@@ -31,10 +34,13 @@ public class VaultState : IPlayerState
 
     void PrepareStartup()
     {    
-        Time.timeScale = 0.85f;
+        Time.timeScale = 0.45f;
         driver.CurrentVelocity /= 1.5f;
         driver.Animator.SetTrigger(ctx.trigger.targetValue);
-        driver._RootMotionRuntime.AddRuntime(AnimatorRuntimeCallback);
+        currentTime = 0;
+        clipLength = ctx.trigger.warpAsset.TargetClip.length;
+        dummyPosition = driver.Animator.transform.position;
+        startRotation = driver.Animator.transform.rotation;
     }
 
     public void OnUpdate()
@@ -52,7 +58,6 @@ public class VaultState : IPlayerState
     {   
         if(src.IsCancellationRequested)
         {   
-            
             driver.InitiateStateChange(ctx.lastStateType);
         }
     }
@@ -67,44 +72,20 @@ public class VaultState : IPlayerState
         driver.Animator.SetFloat("Loco" , driver.CurrentVelocity.magnitude / driver.Data.MaxRunSpeed);
     }
 
-    void AnimatorRuntimeCallback()
+    public void AnimatorRuntimeCallback(Vector3 position , Quaternion rotation)
     {   
         if(!driver.Animator.applyRootMotion)
             return;
-        
-        Vector3 deltaPosition = driver.Animator.deltaPosition;
 
-        if (isWarping)
-        { 
-            float multiplier = Mathf.Lerp(1, warpScaleMultiplier, ctx.trigger.warpAsset.EvaulateWarpScaleCurve(Mathf.InverseLerp(startTime, endTime, currentTime), UnityEngine.Animations.Axis.Y));
-            deltaPosition.y *= multiplier;
-            currentTime += Time.deltaTime;
-        }
-
-        animatorTransform.position += deltaPosition;
-        animatorTransform.rotation *= driver.Animator.deltaRotation;
+        animatorTransform.position = position;
+        animatorTransform.rotation = rotation;
     }
 
-    public void OnWarpAreaEntered(float startTime, float endTime, float currentTime)
-    {
-        this.startTime = startTime;
-        this.endTime = endTime; 
-        this.currentTime = currentTime;
-        warpScaleMultiplier = Mathf.Abs(ctx.traversalPoints[1].y - ctx.traversalPoints[0].y) / ctx.trigger.warpAsset.GetMaxOffset(UnityEngine.Animations.Axis.Y);
-        isWarping = true;
-        Debug.Log("Warping Started : " + warpScaleMultiplier);
-    }
-
-    public void OnWarpAreaExit()
-    {
-        isWarping = false;
-        Debug.Log("Warping Ended");
-    }
 
     public void OnExit(Action OnCompleted = null)
     {   
         Time.timeScale = 1f;
-        driver._RootMotionRuntime.RemoveRuntime(AnimatorRuntimeCallback);
+        currentTime = 0;
         OnCompleted?.Invoke();
     }
 

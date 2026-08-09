@@ -66,7 +66,6 @@ MonoBehaviour:
     startPointIndex: 0
     endPointIndex: 0
     performHeightAdjustment: 0
-    toggle: 0
   stateUpdate:
   - moduleType: 4
     config:
@@ -80,7 +79,6 @@ MonoBehaviour:
     startPointIndex: 0
     endPointIndex: 0
     performHeightAdjustment: 0
-    toggle: 0
   - moduleType: 2
     config:
       MatchX: 0
@@ -93,7 +91,7 @@ MonoBehaviour:
     startPointIndex: 0
     endPointIndex: 0
     performHeightAdjustment: 0
-    toggle: 0
+  stateMove: []
   stateExit:
   - moduleType: 3
     config:
@@ -107,7 +105,6 @@ MonoBehaviour:
     startPointIndex: 0
     endPointIndex: 0
     performHeightAdjustment: 0
-    toggle: 0
 --- !u!1101 &-8766544177057830753
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -323,7 +320,6 @@ MonoBehaviour:
     startPointIndex: 0
     endPointIndex: 0
     performHeightAdjustment: 0
-    toggle: 1
   stateUpdate:
   - moduleType: 6
     config:
@@ -337,7 +333,7 @@ MonoBehaviour:
     startPointIndex: 0
     endPointIndex: 1
     performHeightAdjustment: 1
-    toggle: 0
+  stateMove: []
   stateExit: []
 --- !u!1102 &-4677148484662507322
 AnimatorState:
@@ -590,7 +586,7 @@ MonoBehaviour:
     startPointIndex: 1
     endPointIndex: 2
     performHeightAdjustment: 0
-    toggle: 0
+  stateMove: []
   stateExit: []
 --- !u!206 &-1931912795209182927
 BlendTree:
@@ -656,12 +652,11 @@ MonoBehaviour:
     startPointIndex: 0
     endPointIndex: 0
     performHeightAdjustment: 0
-    toggle: 0
   stateUpdate:
   - moduleType: 4
     config:
       MatchX: 1
-      MatchY: 1
+      MatchY: 0
       MatchZ: 1
     Threshold: 0
     postThresholdExecutionType: 0
@@ -670,7 +665,6 @@ MonoBehaviour:
     startPointIndex: 0
     endPointIndex: 0
     performHeightAdjustment: 0
-    toggle: 0
   - moduleType: 2
     config:
       MatchX: 0
@@ -683,7 +677,19 @@ MonoBehaviour:
     startPointIndex: 0
     endPointIndex: 0
     performHeightAdjustment: 0
-    toggle: 0
+  stateMove:
+  - moduleType: 7
+    config:
+      MatchX: 0
+      MatchY: 0
+      MatchZ: 0
+    Threshold: 0
+    postThresholdExecutionType: 0
+    easeType: 0
+    anchorPointOverride: 0
+    startPointIndex: 0
+    endPointIndex: 0
+    performHeightAdjustment: 0
   stateExit:
   - moduleType: 3
     config:
@@ -697,7 +703,6 @@ MonoBehaviour:
     startPointIndex: 0
     endPointIndex: 0
     performHeightAdjustment: 0
-    toggle: 0
 --- !u!206 &-864506958336079945
 BlendTree:
   m_ObjectHideFlags: 1
@@ -923,7 +928,6 @@ MonoBehaviour:
     startPointIndex: 0
     endPointIndex: 0
     performHeightAdjustment: 0
-    toggle: 0
   stateUpdate:
   - moduleType: 4
     config:
@@ -937,7 +941,6 @@ MonoBehaviour:
     startPointIndex: 0
     endPointIndex: 0
     performHeightAdjustment: 0
-    toggle: 0
   - moduleType: 2
     config:
       MatchX: 0
@@ -950,7 +953,7 @@ MonoBehaviour:
     startPointIndex: 0
     endPointIndex: 0
     performHeightAdjustment: 0
-    toggle: 0
+  stateMove: []
   stateExit:
   - moduleType: 3
     config:
@@ -964,7 +967,6 @@ MonoBehaviour:
     startPointIndex: 0
     endPointIndex: 0
     performHeightAdjustment: 0
-    toggle: 0
 --- !u!1102 &2724615354947299253
 AnimatorState:
   serializedVersion: 6
@@ -1181,9 +1183,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.70255387
-  m_TransitionOffset: 0.0699172
-  m_ExitTime: 0.6895347
+  m_TransitionDuration: 0.36194944
+  m_TransitionOffset: 0.041099057
+  m_ExitTime: 0.77989155
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 1

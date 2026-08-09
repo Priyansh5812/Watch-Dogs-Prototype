@@ -1,7 +1,6 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
-using Unity.VisualScripting;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 
@@ -9,12 +8,10 @@ using UnityEngine.SceneManagement;
 public class WarpAssetEditor : Editor
 {
     SerializedProperty clip;
-    SerializedProperty start;
-    SerializedProperty end;
     SerializedProperty preview;
     SerializedProperty previewPrefab;
-    SerializedProperty positionCurves;
-    SerializedProperty bakeArray;
+    SerializedProperty windows;
+    SerializedProperty sampleRate;
 
     const float TimelineHeight = 40f;
     const float MarkerWidth = 10f;
@@ -30,19 +27,14 @@ public class WarpAssetEditor : Editor
     float panSpeed = 0.01f;
     float rotateSpeed = 0.25f;
 
-    TransformData[] BakedData;
-    const int SampleRate = 60;
-
 
     void OnEnable()
     {
         clip = serializedObject.FindProperty("TargetClip");
-        start = serializedObject.FindProperty("Start");
-        end = serializedObject.FindProperty("End");
         preview = serializedObject.FindProperty("PreviewTime");
         previewPrefab = serializedObject.FindProperty("PreviewPrefab");
-        positionCurves = serializedObject.FindProperty("Pos_WarpScaleCurves");
-        bakeArray = serializedObject.FindProperty("BakedData");
+        sampleRate = serializedObject.FindProperty("SampleRate");
+        windows = serializedObject.FindProperty("windows");
         renderUtil = new();
     }
 
@@ -58,19 +50,22 @@ public class WarpAssetEditor : Editor
         if (clip.objectReferenceValue != null)
         {
             DrawTimeline();
-            EditorGUILayout.PropertyField(positionCurves);
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(windows, true);
+            if (EditorGUI.EndChangeCheck())
+                Repaint();
+            EditorGUILayout.PropertyField(sampleRate);
             GUILayout.Space(20);
-            string str = (bakeArray == null || bakeArray.arraySize == 0) ? "Unbaked" : "Baked";
-            GUILayout.Label(str);
             GUILayout.Space(20);
             EditorGUILayout.BeginHorizontal();
             GUILayout.Space(20);
-            if(GUILayout.Button("Bake"))
-            {
-                Bake();
-            }
             GUILayout.Space(20);
             EditorGUILayout.EndHorizontal();
+        }
+
+        if(GUILayout.Button("Refresh Authored Values"))
+        {
+            RefreshAuthoredValues();
         }
 
         EnsurePreviewEditor();
@@ -78,45 +73,6 @@ public class WarpAssetEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 
-    public void Bake()
-    {   
-        AnimationClip clip = (AnimationClip)this.clip.objectReferenceValue;
-        float startLength = clip.length * start.floatValue;
-        float endLength = clip.length * end.floatValue;
-        float reqLength = endLength - startLength;
-        int count = Mathf.CeilToInt(reqLength) * SampleRate;
-        BakedData = new TransformData[count+1];
-        Vector3 originalPos = default; 
-        Quaternion originalRot = default;
-        Vector3 authoredScales = Vector3.zero; 
-        for (int i = 0; i <= count; i++) 
-        { 
-            float t = startLength + (i / (float)count) * reqLength;
-            clip.SampleAnimation(previewObject,t);
-
-            if(i == 0)
-            {
-                originalPos = previewObject.transform.position;
-                originalRot = previewObject.transform.rotation;
-            }
-
-
-            var data = new TransformData();
-            data.Position = Quaternion.Inverse(originalRot) * (previewObject.transform.position - originalPos); 
-            data.Rotation = Quaternion.Inverse(originalRot) * previewObject.transform.rotation;
-
-            authoredScales.x = Mathf.Max(authoredScales.x , data.Position.x);
-            authoredScales.y = Mathf.Max(authoredScales.y , data.Position.y);
-            authoredScales.z = Mathf.Max(authoredScales.z , data.Position.z);
-
-            BakedData[i] = data;
-        }
-
-        SerializedProperty authoredValues = positionCurves.FindPropertyRelative("AuthoredAxisScales");
-        authoredValues.vector3Value = authoredScales;
-        bakeArray.SetUnderlyingValue(BakedData);
-        EditorUtility.SetDirty(this);
-    }
 
 
     // ------------------------------------------------------------------------
@@ -260,7 +216,7 @@ void ComputeRotation(float deltaX, float deltaY)
         GUILayout.ExpandWidth(true));
         DrawBackground(rect);
         DrawTicks(rect, animation.length);
-        DrawSelection(rect);
+        DrawWindowSelections(rect);
         DrawMarkers(rect);
         HandleEvents(rect);
         EditorUtility.SetDirty(target);
@@ -321,13 +277,13 @@ void ComputeRotation(float deltaX, float deltaY)
         }
     }
 
-    void DrawSelection(Rect rect)
+    void DrawSelection(Rect rect, float startTime, float endTime, Color color)
     {
         float sx =
-            Mathf.Lerp(rect.x, rect.xMax, start.floatValue);
+            Mathf.Lerp(rect.x, rect.xMax, startTime);
 
         float ex =
-            Mathf.Lerp(rect.x, rect.xMax, end.floatValue);
+            Mathf.Lerp(rect.x, rect.xMax, endTime);
 
         Rect selection =
             new Rect(
@@ -338,18 +294,36 @@ void ComputeRotation(float deltaX, float deltaY)
 
         EditorGUI.DrawRect(
             selection,
-            new Color(.2f,.6f,1f,.3f));
+            new Color(color.r, color.g, color.b, 0.25f));
+    }
+
+    void DrawWindowSelections(Rect rect)
+    {
+        for (int i = 0; i < windows.arraySize; i++)
+        {
+            if (!TryGetWindowProperties(i, out SerializedProperty windowStart, out SerializedProperty windowEnd, out SerializedProperty windowColor))
+                continue;
+
+            DrawSelection(
+                rect,
+                windowStart.floatValue,
+                windowEnd.floatValue,
+                windowColor.colorValue);
+        }
     }
 
     void DrawMarkers(Rect rect)
     {
-        DrawMarker(rect,
-            start.floatValue,
-            Color.green);
+        for (int i = 0; i < windows.arraySize; i++)
+        {
+            if (!TryGetWindowProperties(i, out SerializedProperty windowStart, out SerializedProperty windowEnd, out SerializedProperty windowColor))
+                continue;
 
-        DrawMarker(rect,
-            end.floatValue,
-            Color.red);
+            Color markerColor = GetOpaqueColor(windowColor.colorValue);
+
+            DrawMarker(rect, windowStart.floatValue, markerColor);
+            DrawMarker(rect, windowEnd.floatValue, markerColor);
+        }
 
         DrawMarker(rect,
             preview.floatValue,
@@ -370,24 +344,20 @@ void ComputeRotation(float deltaX, float deltaY)
         Handles.DrawSolidDisc(new Vector2(x,!isPreview ? rect.y+12 : rect.y+6),Vector3.forward,MarkerWidth*0.75f);
     }
 
-    int activeHandle = -1;
+    enum TimelineHandleType
+    {
+        None = -1,
+        WindowStart = 0,
+        WindowEnd = 1,
+        Preview = 2
+    }
 
-    const int None = -1;
-    const int StartHandle = 0;
-    const int EndHandle = 1;    
-    const int PreviewHandle = 2;
+    TimelineHandleType activeHandle = TimelineHandleType.None;
+    int activeWindowIndex = -1;
 
     void HandleEvents(Rect rect)
     {
         Event e = Event.current;
-
-        float sx = Mathf.Lerp(rect.x, rect.xMax, start.floatValue);
-        float ex = Mathf.Lerp(rect.x, rect.xMax, end.floatValue);
-        float px = Mathf.Lerp(rect.x, rect.xMax, preview.floatValue);
-
-        Rect startRect = new Rect(sx - 6, rect.y, 12, rect.height);
-        Rect endRect = new Rect(ex - 6, rect.y, 12, rect.height);
-        Rect previewRect = new Rect(px - 6, rect.y, 12, rect.height);
 
         int id = GUIUtility.GetControlID(FocusType.Passive);
 
@@ -398,13 +368,7 @@ void ComputeRotation(float deltaX, float deltaY)
                 if (e.button != 0)
                     break;
 
-                if (previewRect.Contains(e.mousePosition))
-                    activeHandle = PreviewHandle;
-                else if (endRect.Contains(e.mousePosition))
-                    activeHandle = EndHandle;
-                else if (startRect.Contains(e.mousePosition))
-                    activeHandle = StartHandle;
-                else
+                if (!TryGetHandleAtPosition(rect, e.mousePosition, out activeHandle, out activeWindowIndex))
                     break;
 
                 GUIUtility.hotControl = id;
@@ -421,16 +385,19 @@ void ComputeRotation(float deltaX, float deltaY)
 
                 switch (activeHandle)
                 {
-                    case StartHandle:
-                        start.floatValue = Mathf.Min(t, end.floatValue);
-                        break;
 
-                    case EndHandle:
-                        end.floatValue = Mathf.Max(t, start.floatValue);
-                        break;
-
-                    case PreviewHandle:
+                    case TimelineHandleType.Preview:
                         preview.floatValue = t;
+                        break;
+
+                    case TimelineHandleType.WindowStart:
+                        if (TryGetWindowProperties(activeWindowIndex, out SerializedProperty windowStart, out SerializedProperty windowEnd, out _))
+                            windowStart.floatValue = Mathf.Min(t, windowEnd.floatValue);
+                        break;
+
+                    case TimelineHandleType.WindowEnd:
+                        if (TryGetWindowProperties(activeWindowIndex, out SerializedProperty draggedWindowStart, out SerializedProperty draggedWindowEnd, out _))
+                            draggedWindowEnd.floatValue = Mathf.Max(t, draggedWindowStart.floatValue);
                         break;
                 }
 
@@ -446,12 +413,156 @@ void ComputeRotation(float deltaX, float deltaY)
                     break;
 
                 GUIUtility.hotControl = 0;
-                activeHandle = None;
+                activeHandle = TimelineHandleType.None;
+                activeWindowIndex = -1;
 
                 e.Use();
                 break;
         }
 
+    }
+
+    bool TryGetHandleAtPosition(Rect rect, Vector2 mousePosition, out TimelineHandleType handleType, out int windowIndex)
+    {
+        handleType = TimelineHandleType.None;
+        windowIndex = -1;
+
+        float bestDistance = float.MaxValue;
+
+        bool res = TryRegisterHandleHit(
+            mousePosition,
+            rect,
+            preview.floatValue,
+            TimelineHandleType.Preview,
+            -1,
+            ref handleType,
+            ref windowIndex,
+            ref bestDistance);
+
+        if (res)
+            return handleType != TimelineHandleType.None;
+
+        for (int i = 0; i < windows.arraySize; i++)
+        {
+            if (!TryGetWindowProperties(i, out SerializedProperty windowStart, out SerializedProperty windowEnd, out _))
+                continue;
+
+            TryRegisterHandleHit(
+                mousePosition,
+                rect,
+                windowStart.floatValue,
+                TimelineHandleType.WindowStart,
+                i,
+                ref handleType,
+                ref windowIndex,
+                ref bestDistance);
+
+            TryRegisterHandleHit(
+                mousePosition,
+                rect,
+                windowEnd.floatValue,
+                TimelineHandleType.WindowEnd,
+                i,
+                ref handleType,
+                ref windowIndex,
+                ref bestDistance);
+        }
+
+        return handleType != TimelineHandleType.None;
+    }
+
+    void RefreshAuthoredValues()
+    {
+        for(int i = 0 ; i < windows.arraySize; i++)
+        {
+            if (!TryGetWindowProperties(i, out SerializedProperty windowStart, out SerializedProperty windowEnd, out _))
+                continue;
+
+            float startTime = windowStart.floatValue; // Norm
+            float endTime = windowEnd.floatValue; // Norm
+            AnimationClip clip = this.clip.objectReferenceValue as AnimationClip;
+            float clipTime = clip.length;
+
+            startTime *= clipTime;
+            endTime *= clipTime;
+
+            float requiredTime = endTime - startTime;
+            
+            if(requiredTime < 0.05)
+                continue;
+
+            int count = Mathf.CeilToInt(requiredTime * sampleRate.intValue);
+            Vector3 authoredValues = Vector3.zero;
+            Vector3 originalPos = Vector3.zero;
+            for(int k = 0 ; k <= count; k++)
+            {
+                float t = startTime + (k /(float)count) * requiredTime;
+                clip.SampleAnimation(previewObject , t);
+                if(k == 0)
+                {
+                    originalPos = previewObject.transform.position;
+                }
+
+                authoredValues.x = Mathf.Max(authoredValues.x , Mathf.Abs(originalPos.x - previewObject.transform.position.x));      
+
+                authoredValues.y = Mathf.Max(authoredValues.y , Mathf.Abs(originalPos.y - previewObject.transform.position.y)); 
+
+                authoredValues.z = Mathf.Max(authoredValues.z , Mathf.Abs(originalPos.z - previewObject.transform.position.z));
+            }
+
+            SerializedProperty window = windows.GetArrayElementAtIndex(i);
+            var prop_av = window.FindPropertyRelative("AuthoredValues");
+            prop_av.vector3Value = authoredValues;
+        }   
+    }
+
+    bool TryRegisterHandleHit(
+        Vector2 mousePosition,
+        Rect rect,
+        float markerTime,
+        TimelineHandleType candidateType,
+        int candidateWindowIndex,
+        ref TimelineHandleType currentType,
+        ref int currentWindowIndex,
+        ref float bestDistance)
+    {
+        float markerX = Mathf.Lerp(rect.x, rect.xMax, markerTime);
+        Rect markerRect = new Rect(markerX - 6f, rect.y, 12f, rect.height);
+
+        if (!markerRect.Contains(mousePosition))
+            return false;
+
+        float distance = Mathf.Abs(mousePosition.x - markerX);
+
+        if (distance > bestDistance)
+            return false;
+
+        bestDistance = distance;
+        currentType = candidateType;
+        currentWindowIndex = candidateWindowIndex;
+        return true;
+    }
+
+    bool TryGetWindowProperties(int index, out SerializedProperty windowStart, out SerializedProperty windowEnd, out SerializedProperty windowColor)
+    {
+        windowStart = null;
+        windowEnd = null;
+        windowColor = null;
+
+        if (index < 0 || index >= windows.arraySize)
+            return false;
+
+        SerializedProperty window = windows.GetArrayElementAtIndex(index);
+        windowStart = window.FindPropertyRelative("start");
+        windowEnd = window.FindPropertyRelative("end");
+        windowColor = window.FindPropertyRelative("windowBoundsColor");
+
+        return windowStart != null && windowEnd != null && windowColor != null;
+    }
+
+    Color GetOpaqueColor(Color color)
+    {
+        return new Color(color.r, color.g, color.b, 1f);
     }
 
     // ------------------------------------------------------------------------
@@ -479,3 +590,4 @@ void ComputeRotation(float deltaX, float deltaY)
         }
     }
 }
+#endif

@@ -82,6 +82,10 @@ public class Anim_TargetBezier : AnimModuleBase
                 break;
         }
     }
+
+    public void Dispose()
+    {
+    }
 }
 
 

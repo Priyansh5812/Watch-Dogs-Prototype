@@ -21,4 +21,8 @@ public class Anim_RootMotionEnabled : AnimModuleBase
         driver.IsUnderRootRotation = true;
         anim.applyRootMotion = true;
     }
+
+    public void Dispose()
+    {
+    }
 }

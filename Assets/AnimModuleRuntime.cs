@@ -8,10 +8,12 @@ public class AnimModuleRuntime : StateMachineBehaviour , IDisposable
 
     [SerializeField] AnimModuleConstructor[] stateEnter;
     [SerializeField] AnimModuleConstructor[] stateUpdate;
+    [SerializeField] AnimModuleConstructor[] stateMove;
     [SerializeField] AnimModuleConstructor[] stateExit;
 
     AnimModuleBase[] entryExecutions;
     AnimModuleBase[] updateExecutions;
+    AnimModuleBase[] moveExecutions;
     AnimModuleBase[] exitExecutions;
 
     bool isInitialized = false;
@@ -25,9 +27,18 @@ public class AnimModuleRuntime : StateMachineBehaviour , IDisposable
         {
             this.animator = animator;
             RefreshDriverModule();
-            entryExecutions = ArrayPool<AnimModuleBase>.Shared.Rent(stateEnter.Length);
-            updateExecutions = ArrayPool<AnimModuleBase>.Shared.Rent(stateUpdate.Length);
-            exitExecutions = ArrayPool<AnimModuleBase>.Shared.Rent(stateExit.Length);
+
+            if(stateEnter.Length > 0)
+                entryExecutions = ArrayPool<AnimModuleBase>.Shared.Rent(stateEnter.Length);
+
+            if (stateUpdate.Length > 0)
+                updateExecutions = ArrayPool<AnimModuleBase>.Shared.Rent(stateUpdate.Length);
+
+            if (stateMove.Length > 0)
+                moveExecutions = ArrayPool<AnimModuleBase>.Shared.Rent(stateMove.Length);
+
+            if (stateExit.Length > 0)
+                exitExecutions = ArrayPool<AnimModuleBase>.Shared.Rent(stateExit.Length);
 
             for (int i = 0; i < stateEnter.Length; i++)
             {
@@ -36,6 +47,10 @@ public class AnimModuleRuntime : StateMachineBehaviour , IDisposable
             for (int i = 0; i < stateUpdate.Length; i++)
             {
                 updateExecutions[i] = stateUpdate[i].ConstructModule(animator, stateInfo, driver);
+            }
+            for (int i = 0; i < stateMove.Length; i++)
+            {
+                moveExecutions[i] = stateMove[i].ConstructModule(animator, stateInfo, driver);
             }
             for (int i = 0; i < stateExit.Length; i++)
             {
@@ -72,11 +87,17 @@ public class AnimModuleRuntime : StateMachineBehaviour , IDisposable
             i?.Refresh();
         }
 
+        foreach (var i in moveExecutions)
+        {
+            i?.Refresh();
+        }
+
         foreach (var i in exitExecutions)
         {
             i?.Refresh();
         }
     }
+
         
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -107,13 +128,20 @@ public class AnimModuleRuntime : StateMachineBehaviour , IDisposable
         {
             i?.Process();
         }
+
+        DisposeRuntime();
     }
 
+
+
     // OnStateMove is called right after Animator.OnAnimatorMove()
-    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that processes and affects root motion
-    //}
+    override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        foreach (var i in moveExecutions)
+        {
+            i?.Process();
+        }
+    }
 
     // OnStateIK is called right after Animator.OnAnimatorIK()
     //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -135,6 +163,12 @@ public class AnimModuleRuntime : StateMachineBehaviour , IDisposable
             updateExecutions = null;
         }
 
+        if (moveExecutions != null)
+        {
+            ArrayPool<AnimModuleBase>.Shared.Return(moveExecutions);
+            moveExecutions = null;
+        }
+
         if (exitExecutions != null)
         {
             ArrayPool<AnimModuleBase>.Shared.Return(exitExecutions);
@@ -145,16 +179,32 @@ public class AnimModuleRuntime : StateMachineBehaviour , IDisposable
        
     }
 
+    void DisposeRuntime()
+    {
+        foreach (var i in entryExecutions)
+        {
+            i?.Dispose();
+        }
+
+        foreach (var i in updateExecutions)
+        {
+            i?.Dispose();
+        }
+
+        foreach (var i in moveExecutions)
+        {
+            i?.Dispose();
+        }
+
+        foreach (var i in exitExecutions)
+        {
+            i?.Dispose();
+        }
+    }
+
     void OnDisable()
     {
         Dispose();
     }
 
-
-    public void DisableRootMotionAndReparent()
-    {
-        animator.gameObject.transform.SetParent(driver.transform);
-        driver.IsUnderRootRotation = false;
-        animator.applyRootMotion = false;
-    }
 }

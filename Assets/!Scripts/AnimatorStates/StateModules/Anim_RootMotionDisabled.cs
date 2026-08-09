@@ -18,11 +18,14 @@ public class Anim_RootMotionDisabled : AnimModuleBase
 
     public void Process()
     {   
-        
         anim.transform.SetParent(driver.transform);
         driver.IsUnderRootRotation = false;
         anim.applyRootMotion = false;
         anim.transform.localScale = Vector3.one;
         anim.transform.localPosition = Vector3.zero;
+    }
+
+    public void Dispose()
+    {
     }
 }

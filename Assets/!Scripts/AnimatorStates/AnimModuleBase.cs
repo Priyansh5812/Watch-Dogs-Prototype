@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public interface AnimModuleBase
+public interface AnimModuleBase : IDisposable
 {   
     void Refresh();
     void Process();

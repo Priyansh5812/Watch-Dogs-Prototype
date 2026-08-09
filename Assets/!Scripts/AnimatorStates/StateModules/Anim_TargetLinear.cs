@@ -98,4 +98,8 @@ public class Anim_TargetLinear : AnimModuleBase
         
     }
 
+    public void Dispose()
+    {
+    }
+
 }

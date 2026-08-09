@@ -29,6 +29,10 @@ public class Anim_MatchRootLocation : AnimModuleBase
 
         driver.transform.position = pose;
     }
+
+    public void Dispose()
+    {
+    }
 }
 
 [System.Serializable]

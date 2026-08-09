@@ -25,4 +25,8 @@ public class Anim_VaultStateCompletion : AnimModuleBase
         }
         state.SetStateCompletion();
     }
+
+    public void Dispose()
+    {
+    }
 }

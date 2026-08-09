@@ -16,6 +16,6 @@ MonoBehaviour:
   comparisonTarget: 2
   comparisonField: 0
   minComparisonField: 0.95
-  maxComparisonField: 1
+  maxComparisonField: 1.05
   followupAssets:
   - {fileID: 11400000, guid: e616cae2c3a984c4bb9465a87e1c0d73, type: 2}

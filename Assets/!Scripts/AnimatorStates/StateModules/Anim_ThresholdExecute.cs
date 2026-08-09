@@ -28,12 +28,14 @@ public class Anim_ThresholdExecute : AnimModuleBase
             return;
 
         t_duration -= Time.deltaTime;
-        
-        if((t_duration / duration) < threshold)
-        {   
+        if ((t_duration / duration) < threshold)
+        {
             module?.Process();
-            isExecuted = true;      
+            isExecuted = true;
         }
     }
-}
 
+    public void Dispose()
+    {
+    }
+}

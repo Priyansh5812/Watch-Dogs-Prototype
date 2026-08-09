@@ -14,188 +14,70 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetClip: {fileID: 7400000, guid: 23908ba8a8e3cb646bc37e2e29c8b58c, type: 2}
   PreviewPrefab: {fileID: 919132149155446097, guid: b918a1d17b532664697e987e1e2b58d4, type: 3}
-  Start: 0.107317075
-  End: 0.5353659
-  PreviewTime: 0.53414637
-  Pos_WarpScaleCurves:
-    IsXCurveActive: 0
-    XCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    IsYCurveActive: 1
-    YCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 4.3217473
-        outSlope: 4.3217473
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.23311895
-        value: 1.0074812
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 1
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.76849365
-        value: 0.0074768066
-        inSlope: -0.030635182
-        outSlope: -0.030635182
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.5260927
-      - serializedVersion: 3
-        time: 1
-        value: 0.0074812965
-        inSlope: 0.00001939431
-        outSlope: -1.6157523
-        tangentMode: 5
-        weightedMode: 0
-        inWeight: 0.50001055
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    IsZCurveActive: 0
-    ZCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    AuthoredAxisScales: {x: 0, y: 0.9, z: 2.4465303}
-  BakedData:
-  - Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.005276938, y: 0.021451153, z: 0.04907749}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.011333669, y: 0.044759355, z: 0.09709597}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.018523756, y: 0.06987738, z: 0.14419843}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.027215242, y: 0.09675772, z: 0.19061778}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.03743097, y: 0.12540263, z: 0.23747924}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.048048638, y: 0.15727338, z: 0.2850146}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.05820164, y: 0.19187623, z: 0.3330155}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.07297091, y: 0.22758502, z: 0.37953076}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.08949968, y: 0.2627741, z: 0.42493486}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.10411926, y: 0.2958171, z: 0.46984026}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.1175636, y: 0.3254064, z: 0.5135696}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.1319997, y: 0.35426417, z: 0.55507654}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.14763021, y: 0.3833318, z: 0.59603524}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.16226164, y: 0.4125095, z: 0.63801533}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.1746216, y: 0.441698, z: 0.6812361}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.18550791, y: 0.47079748, z: 0.7253102}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.19503677, y: 0.49970853, z: 0.77004987}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.20329982, y: 0.52809185, z: 0.81527466}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.21039784, y: 0.5530328, z: 0.860802}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.21682909, y: 0.5742871, z: 0.9063317}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.22289637, y: 0.5926078, z: 0.9516217}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.22867979, y: 0.60874766, z: 0.996495}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.23425932, y: 0.62346005, z: 1.0407743}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.23971505, y: 0.6374978, z: 1.0842829}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.24512708, y: 0.65161407, z: 1.1268437}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.25055742, y: 0.66656184, z: 1.1682847}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.25530183, y: 0.6830942, z: 1.2086585}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.25966042, y: 0.701964, z: 1.2487508}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.26452118, y: 0.72135425, z: 1.2892859}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.27049574, y: 0.7369062, z: 1.3300432}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.2781959, y: 0.74886507, z: 1.3708037}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.28813308, y: 0.7575926, z: 1.4113771}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.29940167, y: 0.7634502, z: 1.4519877}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.3118214, y: 0.7667992, z: 1.4926481}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.3256401, y: 0.7680012, z: 1.5332453}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.34110573, y: 0.76741755, z: 1.5736663}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.35846594, y: 0.76541007, z: 1.6137978}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.37781566, y: 0.7620627, z: 1.6535716}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.39823803, y: 0.75571525, z: 1.6932161}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.41937217, y: 0.7458533, z: 1.7327963}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.44101846, y: 0.7322656, z: 1.7723304}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.46297738, y: 0.7147409, z: 1.811836}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.4850494, y: 0.69306755, z: 1.8513316}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.50692123, y: 0.6670345, z: 1.8908681}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.52805567, y: 0.6364303, z: 1.9304127}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.54820156, y: 0.60104364, z: 1.9690392}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.5673987, y: 0.5606798, z: 2.0066597}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.58574116, y: 0.5166389, z: 2.0433717}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.60332215, y: 0.47083884, z: 2.0792687}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.6196244, y: 0.424693, z: 2.114627}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.63388455, y: 0.37961435, z: 2.149792}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.6469202, y: 0.3370165, z: 2.1846485}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.65947294, y: 0.29785538, z: 2.2191014}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.6729397, y: 0.25653952, z: 2.2528648}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.69061625, y: 0.21349871, z: 2.2850971}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.710258, y: 0.17196584, z: 2.3165772}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.72976243, y: 0.13239813, z: 2.3480453}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.7472807, y: 0.0905217, z: 2.380166}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.76292783, y: 0.046447955, z: 2.4130285}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -0.7774756, y: 0.000464499, z: 2.4465303}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
+  PreviewTime: 0
+  SampleRate: 30
+  windows:
+  - start: 0.10012516
+    end: 0.5449621
+    windowBoundsColor: {r: 0.9325291, g: 0, b: 0.9811321, a: 1}
+    curves:
+      isXCurveActive: 0
+      XCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+      isYCurveActive: 1
+      YCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 3.3538857
+          outSlope: 3.3538857
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 0.29890484
+          value: 1.0024927
+          inSlope: -0.0000057703996
+          outSlope: -0.00000030048858
+          tangentMode: 1
+          weightedMode: 3
+          inWeight: 0.7384642
+          outWeight: 0.40437558
+        - serializedVersion: 3
+          time: 0.7319641
+          value: 0
+          inSlope: -0.00003873204
+          outSlope: -0.025541117
+          tangentMode: 1
+          weightedMode: 3
+          inWeight: 0.5035907
+          outWeight: 0.97135705
+        - serializedVersion: 3
+          time: 1
+          value: 0
+          inSlope: Infinity
+          outSlope: 0
+          tangentMode: 7
+          weightedMode: 1
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      isZCurveActive: 0
+      ZCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+    AuthoredValues: {x: 0.113422334, y: 0.7945278, z: 2.595615}
+    Traj_FromIndex: 0
+    Traj_ToIndex: 1

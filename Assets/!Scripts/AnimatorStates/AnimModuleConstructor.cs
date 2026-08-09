@@ -19,8 +19,6 @@ public struct AnimModuleConstructor
     public int endPointIndex;
     public bool performHeightAdjustment;
 
-    [Header("Player Driver Simulation")]
-    public bool toggle;
     public AnimModuleBase ConstructModule(Animator animator, AnimatorStateInfo info, PlayerStateDriver driver)
     {
         var ctx = driver.GetVaultContext();
@@ -48,11 +46,8 @@ public struct AnimModuleConstructor
             case AnimModuleType.DIRECT_TARGETING:
                 return new Anim_TargetLinear(driver, ctx.traversalPoints, info,(startPointIndex , endPointIndex), performHeightAdjustment, easeType, anchorPointOverride);
 
-            case AnimModuleType.DRIVER_SIM_PASS:
-                return new Anim_TogglePlayerStateDriverPositioningPass(driver , toggle);
-            
-            case AnimModuleType.WARP_EVENT_DISP:
-                return new Anim_WarpEventDispatcher(driver , info);
+            case AnimModuleType.WARP_RUNTIME:
+                return new Anim_WarpRuntime(driver);
 
             //case AnimModuleType.BEZIER_TARGETING:
             //    return new Anim_TargetBezier(driver, ctx.traversalPoints, info, targetingSpeedMultiplier, easeType, anchorPointType);
@@ -73,6 +68,5 @@ public enum AnimModuleType
     MATCH_ROOT_LOCATION,
     BEZIER_TARGETING,
     DIRECT_TARGETING,
-    DRIVER_SIM_PASS,
-    WARP_EVENT_DISP
+    WARP_RUNTIME
 }

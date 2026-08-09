@@ -26,19 +26,7 @@ public partial class PlayerStateDriver : MonoBehaviour
 
     public DecisionAsset<ResultAsset , VaultRequestParams> AnimationDatabase;
 
-    [field : SerializeField] public RootMotionRuntime _RootMotionRuntime
-    {
-        get;
-        private set;
-    }
-
     public bool IsUnderRootRotation
-    {
-        get;
-        set;
-    }
-
-    public bool IsUnderSimulatedPositioning
     {
         get;
         set;
@@ -69,7 +57,7 @@ public partial class PlayerStateDriver : MonoBehaviour
     {   
         _inputManager = GameManager.GetModule.Invoke(typeof(InputManager)) as InputManager;
         cam ??= Camera.main;
-        IsUnderRootRotation = Animator.hasRootMotion;
+        IsUnderRootRotation = Animator.applyRootMotion;
         InitializeStateRegistry();
     }
 
@@ -197,7 +185,7 @@ public partial class PlayerStateDriver : MonoBehaviour
         
     void MoveCharacter()
     {   
-        if(this.IsUnderRootRotation || this.IsUnderSimulatedPositioning)
+        if(this.IsUnderRootRotation)
             return;
 
         cc.Move(finalMoveVector * Time.deltaTime);

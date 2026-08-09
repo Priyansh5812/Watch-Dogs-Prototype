@@ -858,11 +858,6 @@ MonoBehaviour:
   lazyUpdateRotation: 0
   lazyPositionUpdationSpeed: 5
   lazyRotationUpdationSpeed: 10
---- !u!1 &891390964 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8245842167235657531, guid: 4aa55b71c28ecd74aa1ea582a0f81b3c, type: 3}
-  m_PrefabInstance: {fileID: 7524585470747058836}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &932877247
 GameObject:
   m_ObjectHideFlags: 0
@@ -1187,8 +1182,8 @@ Transform:
   m_GameObject: {fileID: 932877247}
   serializedVersion: 2
   m_LocalRotation: {x: 1.110223e-17, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.83, y: 0.2709, z: 7.4422}
-  m_LocalScale: {x: 1, y: 0.7215, z: 1.2986604}
+  m_LocalPosition: {x: -6.83, y: 0.432, z: 7.4422}
+  m_LocalScale: {x: 1, y: 0.9467359, z: 1.2986604}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1993,16 +1988,15 @@ MonoBehaviour:
   <Data>k__BackingField: {fileID: 11400000, guid: a8c38ea4e80d9af49a71e310ac2c4d9e, type: 2}
   <Animator>k__BackingField: {fileID: 919132148966441571}
   AnimationDatabase: {fileID: 11400000, guid: 7ce6536287b12ac4dab7526249fc5b69, type: 2}
-  <_RootMotionRuntime>k__BackingField: {fileID: 919132148966441572}
   <raycastPoints>k__BackingField:
   - t: 0.041
     distance: 2
   - t: 0.371
     distance: 2
   - t: 0.689
-    distance: 2
+    distance: 0
   - t: 1
-    distance: 2
+    distance: 0
   <targetVaultLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 64
@@ -2826,19 +2820,6 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 3419203771097414660, guid: 4aa55b71c28ecd74aa1ea582a0f81b3c, type: 3}
   m_PrefabInstance: {fileID: 7524585470747058836}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &919132148966441572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 891390964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a5f271c8a89d8b4ea0ac64400ec3ba0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 919132148966441571}
 --- !u!1001 &7524585470747058836
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2849,7 +2830,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3419203771097414660, guid: 4aa55b71c28ecd74aa1ea582a0f81b3c, type: 3}
       propertyPath: m_ApplyRootMotion
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5292025773798519775, guid: 4aa55b71c28ecd74aa1ea582a0f81b3c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2898,10 +2879,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8245842167235657531, guid: 4aa55b71c28ecd74aa1ea582a0f81b3c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 919132148966441572}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4aa55b71c28ecd74aa1ea582a0f81b3c, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
